@@ -13,7 +13,7 @@ const Hero = () => {
           comfort and style - ensuring you&apos;re well-prepared for whatever
           comes your way.
         </p>
-        <UnderlineLink href="/store">Explore products</UnderlineLink>
+        <UnderlineLink href="/store">Explore SUFFY products</UnderlineLink>
       </div>
       <Image
         src="/hero.webp"
