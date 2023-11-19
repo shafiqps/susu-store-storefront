@@ -5,6 +5,7 @@ import Link from "next/link"
 import CheckoutLoader from "../components/checkout-loader"
 import CheckoutForm from "./checkout-form"
 import CheckoutSummary from "./checkout-summary"
+import Image from 'next/image'
 
 const CheckoutTemplate = () => {
   return (
@@ -25,7 +26,13 @@ const CheckoutTemplate = () => {
               </>
             </Link>
             <Link href="/" className="text-xl-semi">
-              SUFFY
+              <Image
+                    src="/Logo-Suffy-01.svg"
+                    alt="SUFFY SUSU logo"
+                    className="h-8 w-auto"
+                    width={100}
+                    height={100}
+                  />
             </Link>
             <div className="flex-1 basis-0" />
           </nav>

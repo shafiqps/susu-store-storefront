@@ -1,31 +1,39 @@
 import UnderlineLink from "@modules/common/components/underline-link"
 import Image from "next/image"
 
+
+/*
+this section should be allign vertically center
+image of all products
+with text More of our products
+link to /store
+text and link on top of image
+image = all-product.webp
+*/
 const FooterCTA = () => {
   return (
-    <div className="bg-gray-500 w-full">
-      <div className="content-container flex flex-col-reverse gap-y-8 small:flex-row small:items-center justify-between py-16 relative">
+    <div className="flex justify-center items-center bg-gradient-to-t from-white via-blue-300 to-blue-500 w-full h-[90vh]">
+      <div >
         <div>
-          <h3 className="text-2xl-semi">Shop the latest SUSU</h3>
+          <h3 className="text-2xl-semi">More of our products</h3>
           <div className="mt-6">
             <UnderlineLink href="/store">Explore SUFFY products</UnderlineLink>
           </div>
         </div>
 
-        <div className="relative w-full aspect-square small:w-[50%] small:aspect-[36/36]">
+        <div className="h-640 w-960 relative">
           <Image
-            src="/asian-female-fashion-store-owner-showing-thumb-up.webp"
+            src="/all-product.webp"
             alt=""
-            className="absolute inset-0"
-            fill
+            className="inset-0"
             sizes="100vw"
-            style={{
-              objectFit: "cover",
-            }}
+            width={1000}
+            height={1000}
           />
         </div>
       </div>
     </div>
+
   )
 }
 

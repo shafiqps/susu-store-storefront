@@ -10,6 +10,7 @@ import clsx from "clsx"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
+import Image from "next/image"
 
 const Nav = () => {
   const pathname = usePathname()
@@ -74,7 +75,13 @@ const Nav = () => {
 
           <div className="flex items-center h-full">
             <Link href="/" className="text-xl-semi uppercase">
-              SUFFY
+              <Image
+                    src="/Logo-Suffy-01.svg"
+                    alt="SUFFY SUSU logo"
+                    className="h-8 w-auto"
+                    width={100}
+                    height={100}
+                  />
             </Link>
           </div>
 

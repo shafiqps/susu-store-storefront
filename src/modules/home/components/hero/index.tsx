@@ -9,17 +9,16 @@ const Hero = () => {
           Introducing SUFFY SUSU
         </h1>
         <p className="text-base-regular max-w-[32rem] mb-6 drop-shadow-md shadow-black">
-          The world's first and only lactation milk that is made with 100%
-          natural ingredients and is 100% vegan.
-          Also available in a variety of flavors.
+        Suffy is a brand of bumiputra formula milk products and Muslim products that are processed and produced from their own factory in Ipoh, Perak. Suffy offers a wide variety of milk based on goat's milk and cow's milk for children, adults and the elderly.
+    
         </p>
         <UnderlineLink href="/store">Explore SUFFY products</UnderlineLink>
       </div>
       <Image
-        src="/hero.webp"
+        src="/MILK.jpg"
         loading="eager"
         priority={true}
-        quality={90}
+        quality={100}
         alt="Photo by @thevoncomplex https://unsplash.com/@thevoncomplex"
         className="absolute inset-0"
         draggable="false"
