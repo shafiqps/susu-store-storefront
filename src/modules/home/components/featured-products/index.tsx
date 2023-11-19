@@ -16,7 +16,8 @@ const FeaturedProducts = () => {
             Latest products
           </span>
           <p className="text-2xl-regular text-gray-900 max-w-lg mb-4">
-            Our newest styles are here to help you look your best.
+            Our products are made with the best ingredients and materials
+            100% Bumiputra and Muslim products
           </p>
           <UnderlineLink href="/store">Explore SUFFY products</UnderlineLink>
         </div>
