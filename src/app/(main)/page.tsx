@@ -1,6 +1,6 @@
 import FeaturedProducts from "@modules/home/components/featured-products"
 import Hero from "@modules/home/components/hero"
-import CompanyIntro from "@modules/layout/components/company-intro"
+import CompanyIntro from "@modules/home/components/company-intro"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
