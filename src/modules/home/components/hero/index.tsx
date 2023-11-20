@@ -9,7 +9,7 @@ const Hero = () => {
           Introducing SUFFY SUSU
         </h1>
         <p className="text-base-regular max-w-[32rem] mb-6 drop-shadow-md shadow-black">
-        Suffy is a brand of bumiputra formula milk products and Muslim products that are processed and produced from their own factory in Ipoh, Perak. Suffy offers a wide variety of milk based on goat milk and cow milk for children, adults and the elderly.
+        Suffy is a brand of bumiputra formulaa milk products and Muslim products that are processed and produced from their own factory in Ipoh, Perak. Suffy offers a wide variety of milk based on goat milk and cow milk for children, adults and the elderly.
     
         </p>
         <UnderlineLink href="/store">Explore SUFFY products</UnderlineLink>
