@@ -4,9 +4,9 @@ import CompanyIntro from "@modules/home/components/company-intro"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Home",
+  title: "Suffy",
   description:
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos! (Home)",
+    "Suffy (Home)"
 }
 
 const Home = () => {
