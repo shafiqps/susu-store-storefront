@@ -10,8 +10,19 @@ type OverviewProps = {
   orders?: Order[]
   customer?: Omit<Customer, "password_hash">
 }
+const getTotalLoyaltyPoints = (orders: Order[] | undefined): number => {
+  if (!orders) {
+    return 0;
+  }
+
+  return orders.reduce((total, order) => {
+    // Assuming each order has a 'loyaltyPoints' attribute
+    return total + (order.loyaltyPoints || 0);
+  }, 0);
+};
 
 const Overview = ({ orders, customer }: OverviewProps) => {
+  const totalLoyaltyPoints = getTotalLoyaltyPoints(orders);
   return (
     <div>
       <div className="small:hidden">
@@ -101,7 +112,10 @@ const Overview = ({ orders, customer }: OverviewProps) => {
                 </div>
               </div>
             </div>
-
+            <h3 className="text-large-semi">Points</h3>
+                  <span className="text-3xl-semi leading-none">
+                    {totalLoyaltyPoints} {/* Display total loyalty points here */}
+                  </span>
             <div className="flex flex-col gap-y-4">
               <div className="flex items-center gap-x-2">
                 <h3 className="text-large-semi">Recent orders</h3>
