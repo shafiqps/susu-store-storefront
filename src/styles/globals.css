@@ -50,9 +50,132 @@
 }
 
 @layer components {
-  .content-container {
-    @apply max-w-[1440px] w-full mx-auto px-8
+
+  .test {
+    @apply max-w-[1440px] w-full mx-auto px-8;
+    grid-template-columns: calc(50% - 22px) calc(50% - 22px);
+    grid-gap: 44px;
+    padding: 12px;
   }
+
+  .hero-subtext {
+    @apply max-w-[767px];
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 45px auto;
+    padding: 0px 10px;
+    text-align: center;
+    width: 1140px;
+    max-width: 100%;
+  }
+
+  .about-us-hero {
+    background-size: cover;
+    height: 25em;
+    min-height: 25em;
+    position: relative;
+  }
+
+  .numbered-blocks__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 15px 140px;
+  }
+
+  .numbered-blocks__container {
+    width: 1140px;
+    max-width: 100%;
+    border: 1px solid #000;
+    position: relative;
+    border-radius: 6px;
+  }
+
+  .numbered-blocks__title {
+    font-family: CooperBTBold;
+    font-size: 65px;
+    font-weight: 700;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.44;
+    letter-spacing: normal;
+    text-align: center;
+    position: relative;
+    top: -50px;
+  }
+
+  .numbered-blocks__title span {
+    padding: 0 55px;
+    background: #fff;
+  }
+
+  .main-container {
+    padding: 2em;
+  }
+
+  .content-container {
+    padding: 12px;
+  }
+
+  .flex-container h4 {
+    font-weight: 700;
+    text-transform: uppercase;
+    padding-bottom: 32px;
+  }
+
+  .rectangular-image {
+    margin-bottom: 45px;
+  }
+
+  .about-content-heading {
+    @apply max-w-[1050px];
+    font-size: 70px;
+    font-weight: 700;
+    font-family: CooperBTBold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.1;
+    letter-spacing: normal;
+    text-align: right;
+    margin: 0;
+
+  
+  }
+
+  .second-heading {
+    font-family: CooperBTBold;
+    font-size: 90px;
+    color: #000;
+    font-weight: 700;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.44;
+    letter-spacing: normal;
+  }
+
+  .about-us-content__button{
+    width: 100%;
+  }
+
+  .about-us-content__button button {
+    height: 60px;
+    border-radius: 30px;
+    background-color: #000;
+    font-family: Gotham;
+    font-size: 14px;
+    font-weight: 700;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    color: #fff;
+    padding: 0 30px;
+    text-align: center;
+    text-transform: uppercase;
+    position: relative;
+    margin-top: 30px;
+    width: 100%;
+}
+  
 
   .contrast-btn {
     @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;
@@ -108,5 +231,18 @@
 
   .text-3xl-semi {
     @apply text-[36px] leading-[48px] font-semibold;
+  }
+
+  .work-part {
+    @apply overflow: hidden;
+  }
+  .work-process-title { 
+    @apply font-size: 30px; max-width: 500px; font-weight: 600;
+  }
+  .work-des {
+    @apply max-width: 480px; font-size: 20px;
+  }
+  .work-part .heading-des{
+    @apply font-size: 18px;
   }
 }
