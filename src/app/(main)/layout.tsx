@@ -9,8 +9,8 @@ export default function PageLayout({
   children: React.ReactNode
 }) {
   const botpressScript = `
-    <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
-    <script src="https://mediafiles.botpress.cloud/99ee75f5-6861-4ca6-b69b-70f4ae680523/webchat/config.js" defer></script>
+  <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+  <script src="https://mediafiles.botpress.cloud/99ee75f5-6861-4ca6-b69b-70f4ae680523/webchat/config.js" defer></script>
   `;
 
   return (

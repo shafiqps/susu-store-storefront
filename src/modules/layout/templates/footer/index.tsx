@@ -6,7 +6,7 @@ import CompanyIntro from "@modules/home/components/company-intro"
 const Footer = () => {
   return (
     <footer>
-      <FooterCTA />
+
       <FooterNav />
       <MedusaCTA />
     </footer>
