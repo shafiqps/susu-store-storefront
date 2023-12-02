@@ -11,12 +11,13 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import Image from "next/image"
+import { FiSearch } from 'react-icons/fi';
 
 const Nav = () => {
   const pathname = usePathname()
   const [isHome, setIsHome] = useState(true)
   const [isScrolled, setIsScrolled] = useState(false)
-
+  const [searchValue, setSearchValue] = useState("");
   //useEffect that detects if window is scrolled > 5px on the Y axis
   useEffect(() => {
     if (isHome) {
@@ -69,8 +70,8 @@ const Nav = () => {
               <Image
                     src="/Logo-Suffy-01.svg"
                     alt="SUFFY SUSU logo"
-                    className="h-8 w-auto"
-                    width={100}
+                    className="h-10 w-auto"
+                    width={150}
                     height={100}
                   />
             </Link>
@@ -79,15 +80,35 @@ const Nav = () => {
           </div>
           <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
             <div className="hidden small:flex items-center gap-x-6 h-full">
-              {process.env.FEATURE_SEARCH_ENABLED && <DesktopSearchModal />}
-              <Link href="/account" className="font-bold text-lg">Account</Link>
-              <Link href="/suffycoins" className="font-bold text-lg">Coin</Link>
-              <div className="block small:hidden">
+            {process.env.FEATURE_SEARCH_ENABLED && <DesktopSearchModal />}
+            
+            <div className="block small:hidden">
               <Hamburger setOpen={toggle} />
             </div>
             <div className="hidden small:block h-full">
               <DropdownMenu />
             </div>
+            <Link href="/about" className="text-lg font-semibold hover:underline ">About</Link>
+        <Link href="/contact" className="text-lg font-semibold  hover:underline">Services</Link>
+        <Link href="/contact" className="text-lg font-semibold  hover:underline ">Certificates</Link>
+        <Link href="/contact" className="text-lg font-semibold  hover:underline ">Contact</Link>
+        
+            <div className="relative flex items-center">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          className="px-4 py-2 rounded-full border border-gray-300 focus:outline-none w-64" // Adjust the width (w-64) and other styles as needed
+        />
+        <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+          <FiSearch className="text-gray-400 " style={{ fontSize: '1.3rem' }}/>
+        </div>
+      </div>
+
+
+              {process.env.FEATURE_SEARCH_ENABLED && <DesktopSearchModal />}
+              <Link href="/account" className="text-lg font-semibold  hover:underline">Account</Link>
             </div>
             <CartDropdown />
           </div>

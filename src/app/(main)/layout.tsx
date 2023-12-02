@@ -10,6 +10,7 @@ export default function PageLayout({
 }) {
   const botpressScript = `
   <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+<<<<<<< HEAD
 <script>
   window.botpressWebChat.init({
       "composerPlaceholder": "Chat with Suffy Ai",
@@ -32,6 +33,10 @@ export default function PageLayout({
       "themeColor": "#2563eb"
   });
 </script>`;
+=======
+  <script src="https://mediafiles.botpress.cloud/99ee75f5-6861-4ca6-b69b-70f4ae680523/webchat/config.js" defer></script>
+  `;
+>>>>>>> b8e7c7d1aed0e3b13eff8f539768788c2b382c1e
 
   return (
     <>
