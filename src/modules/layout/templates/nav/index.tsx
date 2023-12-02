@@ -11,7 +11,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import Image from "next/image"
-import { FiSearch } from 'react-icons/fi';
+
 
 const Nav = () => {
   const pathname = usePathname()
@@ -102,7 +102,7 @@ const Nav = () => {
           className="px-4 py-2 rounded-full border border-gray-300 focus:outline-none w-64" // Adjust the width (w-64) and other styles as needed
         />
         <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-          <FiSearch className="text-gray-400 " style={{ fontSize: '1.3rem' }}/>
+    
         </div>
       </div>
 
