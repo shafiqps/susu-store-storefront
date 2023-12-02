@@ -142,15 +142,113 @@
   
   }
 
+  .facebook-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20%; /* Makes the button circular */
+    border: none;
+    padding: 0;
+  }
+
+  .background-image {
+    background-image: url('/6.png'); /* Replace with your image path */
+    background-size: cover; /* Cover the entire area */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-position: center; /* Center the image */
+  }
+
+.hover-effect-group:hover .hover-img {
+  display: block;
+ }
+ .hover-img {
+   display: none;
+}
+
+.spend-brew-coins-container {
+  max-width: 800px; /* Adjust the width as needed */
+  margin: auto;
+}
+
+.spend-brew-coins-container h2 {
+  font-size: 50px; /* Adjust the size as needed */
+}
+
+.spend-brew-coins-container p {
+  font-size: 1rem; /* Adjust the size as needed */
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: black; /* Adjust the color as needed */
+  width: 30%; /* Adjust the width as needed */
+  margin: auto;
+}
+
   .second-heading {
     font-family: CooperBTBold;
-    font-size: 90px;
-    color: #000;
+    font-size: 30px;
+    color: #000000;
     font-weight: 700;
     font-stretch: normal;
     font-style: normal;
-    line-height: 1.44;
+    line-height: 1;
+    margin-top: 20px;
+    margin-bottom: 10px;
     letter-spacing: normal;
+  }
+
+  .third-h1 {
+    font-size: 50px;
+    color: #000;
+    font-weight: black;
+    font-stretch: normal;
+    font-style: black;
+    letter-spacing: normal;
+  }
+  .third-heading {
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 700;
+    font-style: normal;
+    margin-bottom: 5px;
+    letter-spacing: normal;
+  }
+
+  .fourth-heading {
+    font-size: 12px;
+    color: #000000;
+    font-weight: 400;
+    font-style: normal;
+    line-height: 0.8;
+    letter-spacing: normal;
+  }
+  .fifth-heading{
+    font-size: 15px;
+    color: #ffffff;
+    font-weight: 600;
+    font-style: normal;
+    letter-spacing: normal;
+  }
+
+  .description{
+    font-size: 15px;
+    color: #000000;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 1.1;
+    letter-spacing: normal;
+  }
+  .input {
+    border: 2px solid #000; /* Change as needed */
+    border-radius: 9999px; /* Full pill shape */
+    padding: 8px 16px; /* Adjust as needed */
+  }
+  
+  .button {
+    border: none; /* No border */
+    cursor: pointer; /* Clickable cursor */
   }
 
   .about-us-content__button{

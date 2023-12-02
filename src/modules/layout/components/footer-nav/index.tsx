@@ -5,25 +5,64 @@ import { useCollections, useProductCategories } from "medusa-react"
 import Link from "next/link"
 import CountrySelect from "../country-select"
 import Image from 'next/image'
+import Button from "@modules/common/components/button"
+import Button2 from "@modules/common/components/button"
 
 const FooterNav = () => {
   const { collections } = useCollections()
   const { product_categories } = useProductCategories()
-
   return (
-    <div className="content-container flex flex-col gap-y-8 pt-16 pb-8">
+    
+    <div className="content-container background-image flex flex-col gap-y-8 pb-5">
+      <div className="flex justify-around items-center bg-transparent w-full h-auto py-4 px-8">
+      
+      
+    </div>
       <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between">
-        <div>
+        <div >
+        <div className="pb-2">
           <Link href="/" className="text-xl-semi uppercase">
             <Image
                     src="/Logo-Suffy-01.svg"
                     alt="SUFFY SUSU logo"
-                    className="h-8 w-auto"
-                    width={100}
-                    height={100}
+                    className="h-10 w-auto"
+                    width={150}
+                    height={150}
                   />
           </Link>
+          </div>
+          <div>          <div className="flex flex-col gap-y-2 bold pl-2">
+
+            <ul className="grid grid-cols-1 gap-y-2">
+              <li>
+              <Link href="/" className="text-xl-semi uppercase">
+            <Image
+                    src="/Facebook_Logo_2023.png"
+                    alt="SUFFY SUSU logo"
+                    className="h-5 w-auto"
+                    width={50}
+                    height={50}
+                  />
+          </Link>
+              </li>
+              <li>
+              <Link href="/" className="text-xl-semi uppercase">
+                  <Image
+                    src="/Instagram_logo_2016.png"
+                    alt="SUFFY SUSU logo"
+                    className="h-5 w-auto"
+                    width={50}
+                    height={50}
+                  />
+          </Link>
+              </li>
+            </ul>
+          </div></div>
+          
+          
+
         </div>
+        
         <div className="text-small-regular grid grid-cols-3 gap-x-10 md:gap-x-16">
           {product_categories && (
             <div className="flex flex-col gap-y-2">
@@ -83,34 +122,39 @@ const FooterNav = () => {
               </ul>
             </div>
           )}
-          <div className="flex flex-col gap-y-2">
-            <span className="text-base-semi">Medusa</span>
-            <ul className="grid grid-cols-1 gap-y-2">
+          <div className="flex flex-col gap-y-2 bold">
+            <span className="third-heading text-white">STORE</span>
+            <ul className="grid grid-cols-1 fourth-heading text-white gap-y-2">
               <li>
                 <a
                   href="https://github.com/medusajs"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  GitHub
+                  All Products
                 </a>
               </li>
               <li>
                 <a
-                  href="https://docs.medusajs.com"
+                  href="https://github.com/medusajs"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Documentation
+                  Subscriptions
                 </a>
               </li>
+            </ul>
+          </div>
+          <div className="flex flex-col gap-y-2 bold">
+            <span className="third-heading">GET IN TOUCH</span>
+            <ul className="grid grid-cols-1 fourth-heading text-white gap-y-2">
               <li>
                 <a
-                  href="https://github.com/medusajs/nextjs-starter-medusa"
+                  href="https://github.com/medusajs"
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Source code
+                  contact@suffy.com
                 </a>
               </li>
             </ul>
@@ -118,11 +162,10 @@ const FooterNav = () => {
         </div>
       </div>
       <div className="flex flex-col-reverse gap-y-4 justify-center xsmall:items-center xsmall:flex-row xsmall:items-end xsmall:justify-between">
-        <span className="text-xsmall-regular text-gray-500">
-          © Copyright 2023 JUTA
+        <span className="text-xsmall-regular text-gray-400">
+          © Copyright Suffy. 2020.
         </span>
         <div className="min-w-[316px] flex xsmall:justify-end">
-          <CountrySelect />
         </div>
       </div>
     </div>

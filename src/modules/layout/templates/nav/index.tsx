@@ -1,5 +1,5 @@
 "use client"
-
+import Script from 'next/script';
 import { useMobileMenu } from "@lib/context/mobile-menu-context"
 import Hamburger from "@modules/common/components/hamburger"
 import CartDropdown from "@modules/layout/components/cart-dropdown"
@@ -11,7 +11,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useEffect, useState } from "react"
 import Image from "next/image"
-import { FiSearch } from 'react-icons/fi';
+
 
 const Nav = () => {
   const pathname = usePathname()
@@ -75,6 +75,8 @@ const Nav = () => {
                     height={100}
                   />
             </Link>
+            <Script><script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+<script src="https://mediafiles.botpress.cloud/99ee75f5-6861-4ca6-b69b-70f4ae680523/webchat/config.js" defer></script></Script>
           </div>
           <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
             <div className="hidden small:flex items-center gap-x-6 h-full">
@@ -100,7 +102,7 @@ const Nav = () => {
           className="px-4 py-2 rounded-full border border-gray-300 focus:outline-none w-64" // Adjust the width (w-64) and other styles as needed
         />
         <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-          <FiSearch className="text-gray-400 " style={{ fontSize: '1.3rem' }}/>
+    
         </div>
       </div>
 

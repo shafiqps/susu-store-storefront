@@ -7,7 +7,6 @@ const Footer = () => {
   return (
     <footer>
       <FooterNav />
-      <MedusaCTA />
     </footer>
   )
 }
