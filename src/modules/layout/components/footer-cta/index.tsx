@@ -1,40 +1,37 @@
-import UnderlineLink from "@modules/common/components/underline-link"
-import Image from "next/image"
+import React from 'react';
+import Image from 'next/image';
 
+const Bestsellers = () => {
+  // This array should contain objects with details of each bestseller product.
+  // You would normally fetch this data from your backend or have it passed in as props.
+  const products = [
+    {
+      name: 'LIMITED EDITION',
+      price: 'RM22.00',
+      imageUrl: '/9.3.jpg',
+      rating: 5,
+    },
+    // ...other product objects
+  ];
 
-/*
-this section should be allign vertically center
-image of all products
-with text More of our products
-link to /store
-text and link on top of image
-image = all-product.webp
-*/
-const FooterCTA = () => {
   return (
-    <div className="flex justify-center items-center bg-gradient-to-t from-white via-blue-300 to-blue-500 w-full h-[90vh]">
-      <div >
-        <div>
-          <h3 className="text-2xl-semi">More of our products</h3>
-          <div className="mt-6">
-            <UnderlineLink href="/store">Explore SUFFY products</UnderlineLink>
-          </div>
-        </div>
-
-        <div className="h-640 w-960 relative">
-          <Image
-            src="/all-product.webp"
-            alt=""
-            className="inset-0"
-            sizes="100vw"
-            width={1000}
-            height={1000}
-          />
-        </div>
+    <div className="content-container background-image flex flex-col gap-y-8 pt-5">\
+      <div className="flex justify-between items-center bg-transparent w-auto h-auto px-2">
+      <h2 className=" fifth-heading text-white text-2xl fosnt-semibold mr-4">Get milk 'dairy'.</h2>
+      <div className="w-auto">
+        <input
+          type="email"
+          placeholder="Email:"
+          className="fifth-heading w-auto m-2 p-2 pl-5 px-10 rounded-full"
+        />
+        <button className=" fifth-heading w-auto m-2 p-5  bg-blue-300 bg-opacity-4 text-black py-2 px-10 rounded-full">
+          Sign Up
+        </button>
       </div>
+      </div>
+      
     </div>
+  );
+};
 
-  )
-}
-
-export default FooterCTA
+export default Bestsellers;

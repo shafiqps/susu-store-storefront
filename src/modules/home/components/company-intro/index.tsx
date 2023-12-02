@@ -16,36 +16,35 @@ Underline link to the store page
 */
 const CompanyIntro = () => {
   return (
-    <div className="bg-gradient-to-b from-white via-blue-300 to-blue-500 w-full">
-      <div className="content-container flex flex-col-reverse gap-y-8 small:flex-row small:items-center justify-between py-16 relative">
-        <div>
-          
-          </div>
-        <div>
-          <h3 className="text-2xl-semi">Introducing the Executive Chairman</h3>
-          <h3 className="text-2xl-semi"> of Suffy Dairy Group Sdn Bhd</h3>
-          <h3 className="text-xl-semi">Mr. Sofian bin Tajuddin</h3>
-          
-        </div>
-        <div className="relative h-[70vh] small:aspect-[36/36]">
+    <div className="flex justify-center items-center w-full">
+      <div className="flex justify-between items-center w-full max-w-6xl mx-auto p-8" style={{ backgroundColor: '#FFFBE6' }}>
+        {/* Image Container */}
+        <div className="w-auto">
           <Image
-            src="/Jeff-Bezos.png"
-            alt=""
-            className="absolute inset-0"
-            fill
-            sizes="100vw"
-            style={{
-              objectFit: "cover",
-            }}
+            src="" // Replace with the path to your teapot image
+            alt="Teapot"
+            width={580} // Adjust based on your actual image's aspect ratio
+            height={300} // Adjust based on your actual image's aspect ratio
+            objectFit="contain" // Keeps the aspect ratio of the image
           />
         </div>
-        <div>
-
+        {/* Description Container */}
+        <div className="w-1/2 pl-8">
+          <h2 className="text-4xl font-bold mb-2">A faff-free teapot.</h2>
+          <h3 className="text-2xl mb-1">TEAPOT FOR ONE</h3>
+          <p className="text-xl mb-2">For One - 400ml | ★★★★★ 469 Reviews</p>
+          <p className="mb-4">
+            Brewing tea should be simple and satisfying - so we redesigned the teapot from scratch. No mess, no faff,
+            no need for a strainer (or doilies). Just loads of room for the leaves to release their flavour.
+          </p>
+          <button className="fifth-heading w-auto p-5  bg-pink-900 bg-opacity-4 text-white py-2 px-4 rounded-full">BUY NOW</button>
         </div>
       </div>
     </div>
+    
 
   )
 }
+
 
 export default CompanyIntro
