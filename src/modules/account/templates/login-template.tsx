@@ -25,7 +25,7 @@ const LoginTemplate = () => {
         </div>
         
         <div className="grid justify-center mb-5">
-          <h2 className="grid justify-center text-4xl font-bold mb-2">How It Works</h2>
+         
           
           
         </div>

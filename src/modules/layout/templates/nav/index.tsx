@@ -88,6 +88,7 @@ const Nav = () => {
             <div className="hidden small:block h-full">
               <DropdownMenu />
             </div>
+            <Link href="/suffycoins" className="text-lg font-semibold hover:underline ">Suffy Coins</Link>
             <Link href="/about" className="text-lg font-semibold hover:underline ">About</Link>
         <Link href="/contact" className="text-lg font-semibold  hover:underline">Services</Link>
         <Link href="/contact" className="text-lg font-semibold  hover:underline ">Certificates</Link>

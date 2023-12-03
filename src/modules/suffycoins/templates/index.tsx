@@ -1,7 +1,9 @@
 
 "use client"
+import Link from 'next/link';
 import { useFeaturedProductsQuery } from "@lib/hooks/use-layout-data";
 import Image from "next/image";
+
 
 const SuffycoinsTemplate = () => {
     const { data } = useFeaturedProductsQuery()
@@ -51,19 +53,26 @@ const SuffycoinsTemplate = () => {
       <div className="w-full grid justify-center p-8">
           <h2 className="third-h1 grid justify-center font-bold mb-2">Suffy Coins</h2>
           <p className="text-xl grid justify-center mb-2"> ★★★★★ 469 Agents</p>
-          <p className="description grid justify-center ">
+          <p className="flex description grid justify-center ">
           Suffy Coins are our way of saying thanks for being a loyal customer.
           </p>
-          <p className="description grid justify-center ">
+          <p className="flex description grid justify-center ">
           Order. Get coins. Refer a friend. Get coins. Follow us on social. Get coins.
           </p>
-          <p className="description grid justify-center ">
+          <p className="flex description grid justify-center ">
           Use them a few at a time for a discount or save them up for an even bigger splurge.
           </p>
-          <div className="flex justify-center mb-4">
-          <button className="fifth-heading p-5 m-2 bg-blue-300 bg-black text-black py-5 px-12 rounded-full">Sign Up</button>
-          <button className="fifth-heading p-5 m-2 bg-black bg-opacity-4 text-white py-5 px-12 rounded-full">Sign In</button>
-          </div>
+          <div style={{ height: '30px' }}></div> {/* Adjust the height as needed */}
+          <div className="flex justify-center mb-8 pt-4"> {/* Added pt-4 for padding-top */}
+  <Link href="/account/login">
+    <span className="fifth-heading m-2 bg-blue-300 bg-black text-black py-6 px-8 rounded-full">Sign Up</span>
+  </Link>
+
+  <Link href="/account/login">
+    <span className="fifth-heading m-2 bg-black bg-opacity-4 text-white py-6 px-8 rounded-full">Sign In</span>
+  </Link>
+</div>
+
         </div>
 
     </div>
@@ -81,11 +90,22 @@ const SuffycoinsTemplate = () => {
       <p className="description">
         {step.description}
       </p>
+
+      {/* Add Sign Up and Sign In Links */}
+      {step.title === "SIGN UP" && (
+        <Link href="/account/login">
+          <span className="button-class">Sign Up</span>
+        </Link>
+      )}
+      {step.title === "SIGN IN" && (
+        <Link href="/account/login">
+          <span className="button-class">Sign In</span>
+        </Link>
+      )}
     </div>
-    
   ))}
-  
 </div>
+
 
         </div>
         <div className="text-center py-8">
