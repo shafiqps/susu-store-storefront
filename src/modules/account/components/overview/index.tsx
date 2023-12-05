@@ -7,9 +7,13 @@ import { formatAmount } from "medusa-react"
 import Link from "next/link"
 
 type OverviewProps = {
-  orders?: Order[]
-  customer?: Omit<Customer, "password_hash">
-}
+  orders?: Order[];
+  customer?: Omit<Customer, "password_hash"> & {
+    metadata?: {
+      referral_code?: string;
+    };
+  };
+};
 const getTotalLoyaltyPoints = (orders: Order[] | undefined): number => {
   if (!orders) {
     return 0;
@@ -112,9 +116,13 @@ const Overview = ({ orders, customer }: OverviewProps) => {
                 </div>
               </div>
             </div>
-            <h3 className="text-large-semi">Points</h3>
+            <h3 className="text-large-semi">Comission</h3>
                   <span className="text-3xl-semi leading-none">
-                    {totalLoyaltyPoints} {/* Display total loyalty points here */}
+                    RM {totalLoyaltyPoints} {/* Display total loyalty points here */}
+                  </span>
+                  <h3 className="text-large-semi">Refferal Code</h3>
+                  <span className="text-3xl-semi leading-none">
+                  {customer?.metadata?.referral_code || "No referral code available"} {/* Display total loyalty points here */}
                   </span>
             <div className="flex flex-col gap-y-4">
               <div className="flex items-center gap-x-2">

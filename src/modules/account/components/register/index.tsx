@@ -7,6 +7,8 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { FieldValues, useForm } from "react-hook-form"
+import Medusa from "@medusajs/medusa-js";
+
 
 interface RegisterCredentials extends FieldValues {
   first_name: string
@@ -14,6 +16,7 @@ interface RegisterCredentials extends FieldValues {
   email: string
   password: string
   phone?: string
+  metadata?:object
 }
 
 const Register = () => {
@@ -21,6 +24,18 @@ const Register = () => {
   const [_, setCurrentView] = loginView
   const [authError, setAuthError] = useState<string | undefined>(undefined)
   const router = useRouter()
+
+  
+  async function getListOfCustomers(): Promise<void> {
+    try {
+      const response = await medusaClient.admin.customers.list();
+        console.log("Customers:",response.customers );
+      } catch (error) {
+        console.error("Error fetching customers:", error);
+      }
+  }
+  
+  // Call the function
 
   const handleError = (e: Error) => {
     setAuthError("An error occured. Please try again.")
@@ -31,16 +46,36 @@ const Register = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<RegisterCredentials>()
-
-  const onSubmit = handleSubmit(async (credentials) => {
+ const onSubmit = handleSubmit(async (credentials) => {
+  getListOfCustomers();
+    // Create the customer first without the referral code
     await medusaClient.customers
       .create(credentials)
       .then(() => {
-        refetchCustomer()
-        router.push("/account")
+        refetchCustomer();
+        router.push("/account");
+
+        // After customer creation, generate a unique referral code
+        const uniqueReferralCode = Math.random().toString(36).substr(2, 9).toUpperCase();
+
+        // Add the referral code to the customer's metadata
+        const customerDataWithReferral = {
+          metadata: {
+            referral_code: uniqueReferralCode,
+          },
+        };
+
+        // Update the customer with the referral code
+        medusaClient.customers
+          .update(customerDataWithReferral)
+          .then(() => {
+         
+          })
+          .catch(handleError);
       })
-      .catch(handleError)
-  })
+      .catch(handleError);
+  });
+
 
   return (
     <div className="max-w-sm flex flex-col items-center mt-12">
@@ -87,6 +122,11 @@ const Register = () => {
             })}
             type="password"
             autoComplete="new-password"
+            errors={errors}
+          />
+         <Input
+            label="Referral Code (Optional)"
+            {...register("phone")}
             errors={errors}
           />
         </div>
