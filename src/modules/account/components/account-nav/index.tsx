@@ -40,6 +40,9 @@ const AccountNav = () => {
                   Profile
                 </AccountNavLink>
               </li>
+                <AccountNavLink href="/account/Withdrawal" route={route!}>
+                  Withdrawal
+                </AccountNavLink>
               <li>
                 <AccountNavLink href="/account/addresses" route={route!}>
                   Addresses
