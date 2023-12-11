@@ -36,6 +36,11 @@ const AccountNav = () => {
                 </AccountNavLink>
               </li>
               <li>
+                <AccountNavLink href="/account/membership" route={route!}>
+                  Membership
+                </AccountNavLink>
+              </li>
+              <li>
                 <AccountNavLink href="/account/profile" route={route!}>
                   Profile
                 </AccountNavLink>

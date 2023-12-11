@@ -15,9 +15,9 @@ const FeaturedProducts = () => {
     imageUrl: "/b_genius.jpg", // Replace with your image path
   };
   return (
-    <div className="py-12">
-      <div className="content-container py-12">
-        <div className="flex flex-wrap justify-center items-center">
+    <div className="index__featured-product">
+      <div className="index__featured-product__container ">
+        <div className="flex flex-wrap justify-center items-center grid grid-cols-2 grid-rows-1 gap-12">
           {/* Image Column */}
           <div className="flex-1">
             <img src={featuredProduct.imageUrl} alt="Featured Tea" className="w-full h-auto" />

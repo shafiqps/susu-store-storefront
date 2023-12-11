@@ -16,7 +16,6 @@ interface RegisterCredentials extends FieldValues {
   email: string
   password: string
   phone?: string
-  metadata?:object
 }
 
 const Register = () => {
@@ -24,6 +23,7 @@ const Register = () => {
   const [_, setCurrentView] = loginView
   const [authError, setAuthError] = useState<string | undefined>(undefined)
   const router = useRouter()
+  const [loyaltyCode, setLoyaltyCode] = useState('');
 
   
   async function getListOfCustomers(): Promise<void> {
@@ -51,17 +51,20 @@ const Register = () => {
     // Create the customer first without the referral code
     await medusaClient.customers
       .create(credentials)
-      .then(() => {
+      .then((response) => {
+        const custId = response.customer.id;
         refetchCustomer();
         router.push("/account");
 
         // After customer creation, generate a unique referral code
-        const uniqueReferralCode = Math.random().toString(36).substr(2, 9).toUpperCase();
 
+        const uniqueReferralCode = custId.replace("cus_01", "");
+        
         // Add the referral code to the customer's metadata
         const customerDataWithReferral = {
           metadata: {
             referral_code: uniqueReferralCode,
+            referrer: loyaltyCode
           },
         };
 
@@ -124,11 +127,13 @@ const Register = () => {
             autoComplete="new-password"
             errors={errors}
           />
-         <Input
-            label="Referral Code (Optional)"
-            {...register("phone")}
-            errors={errors}
+          <Input
+            label="Loyalty Code (Optional)"
+            value={loyaltyCode}
+            name="test"
+            onChange={(e) => setLoyaltyCode(e.target.value)}
           />
+
         </div>
         {authError && (
           <div>

@@ -5,15 +5,19 @@ import Package from "@modules/common/icons/package"
 import User from "@modules/common/icons/user"
 import { formatAmount } from "medusa-react"
 import Link from "next/link"
+import React, { useEffect, useState } from 'react';
+
 
 type OverviewProps = {
   orders?: Order[];
   customer?: Omit<Customer, "password_hash"> & {
     metadata?: {
       referral_code?: string;
+      referrer?: string;
     };
   };
 };
+
 const getTotalLoyaltyPoints = (orders: Order[] | undefined): number => {
   if (!orders) {
     return 0;
@@ -118,12 +122,13 @@ const Overview = ({ orders, customer }: OverviewProps) => {
             </div>
             <h3 className="text-large-semi">Comission</h3>
                   <span className="text-3xl-semi leading-none">
-                    RM {totalLoyaltyPoints} {/* Display total loyalty points here */}
+                    RM {customer?.loyaltyPoints || 0} {/* Display total loyalty points here */}
                   </span>
                   <h3 className="text-large-semi">Refferal Code</h3>
                   <span className="text-3xl-semi leading-none">
                   {customer?.metadata?.referral_code || "No referral code available"} {/* Display total loyalty points here */}
                   </span>
+             
             <div className="flex flex-col gap-y-4">
               <div className="flex items-center gap-x-2">
                 <h3 className="text-large-semi">Recent orders</h3>

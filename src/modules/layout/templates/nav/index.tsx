@@ -88,11 +88,11 @@ const Nav = () => {
             <div className="hidden small:block h-full">
               <DropdownMenu />
             </div>
-            <Link href="/suffycoins" className="text-lg font-semibold hover:underline ">Suffy Coins</Link>
-            <Link href="/about" className="text-lg font-semibold hover:underline ">About</Link>
-        <Link href="/contact" className="text-lg font-semibold  hover:underline">Services</Link>
-        <Link href="/contact" className="text-lg font-semibold  hover:underline ">Certificates</Link>
-        <Link href="/contact" className="text-lg font-semibold  hover:underline ">Contact</Link>
+            <Link href="/suffycoins" className="text-lg hover:underline decoration-sky-500/30">Suffy Coins</Link>
+            <Link href="/about" className="text-lg hover:underline decoration-sky-500/30">About</Link>
+            <Link href="/contact" className="text-lg hover:underline decoration-sky-900 ">Services</Link>
+            <Link href="/contact" className="text-lg hover:underline decoration-sky-500/30">Certificates</Link>
+            <Link href="/contact" className="text-lg hover:underline decoration-sky-500/30">Contact</Link>
         
             <div className="relative flex items-center">
         <input
@@ -109,7 +109,7 @@ const Nav = () => {
 
 
               {process.env.FEATURE_SEARCH_ENABLED && <DesktopSearchModal />}
-              <Link href="/account" className="text-lg font-semibold  hover:underline">Account</Link>
+              <Link href="/account" className="text-lg  hover:underline  decoration-sky-500/30">Account</Link>
             </div>
             <CartDropdown />
           </div>

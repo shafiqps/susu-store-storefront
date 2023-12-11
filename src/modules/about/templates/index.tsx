@@ -2,16 +2,10 @@ import Image from "next/image";
 
 const AboutTemplate = () => {
   return (
-    <div className="relative w-full">
+    <div className="about-section w-full ">
       {/* Existing Hero Section */}
-      <div className="about-us-hero h-[90vh] w-full ">
-        <div
-          className="absolute inset-0"
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: "400px",
-          }}
+      <div className="about-us-hero container">
+        <div className="about-us-hero"
         >
           <Image
             src="/MILK.jpg"
@@ -22,20 +16,24 @@ const AboutTemplate = () => {
             quality={100}
             className="z-0"
           />
-          <div className="about-us-hero absolute inset-0 z-10 flex flex-col justify-center items-center text-center" style={{ height: 'calc(250% - 4rem)' }}>
-            <h1 className="text-5xl font-bold text-black">
+
+            <h1 className="font-suffy font-bold text-black-800">
               Introducing SUFFY SUSU
             </h1>
-            <p className="hero-subtext text-black">
-              Suffy is a brand of bumiputra formula milk products and Muslim products that are processed and produced from their own factory in Ipoh, Perak. Suffy offers a wide variety of milk based on goat's milk and cow's milk for children, adults and the elderly.
-            </p>
-          </div>
-   
         </div>
+            <p className="font-suffy hero-subtext text-black-400 container-xl">
+              
+Suffy is a brand of bumiputra formula milk products and Muslim products that are processed and produced from their own factory in Ipoh, Perak. Suffy offers a wide variety of milk based on goat's milk and cow's milk for children, adults and the elderly.
+<br/>
+<br/>
+Suffy products have Malaysian HALAL and HACCP certificates. Suffy is also a member of the Malaysian Muslim Consumer Association (PPIM). It is certain that the safety and quality of Suffy products are constantly monitored and in line with the needs of parents who want to find quality milk products.
+            </p>
+        
       </div>
 
       {/* Work Section with specific width and centering */}
-      <div className="test container mx-auto px-10 grid grid-cols-1 md:grid-cols-2">
+      <div className="main-container">
+      <div className="mt-20 py-20 test mx-auto px-10 grid grid-cols-1 md:grid-cols-2">
           <div className="flex-1 px-4">
             <Image
               src="/CAR.jpg"
@@ -47,9 +45,9 @@ const AboutTemplate = () => {
             />
           </div>
        
-          <div className="flex-1 px-4">
+          <div className="font-suffy flex-1 px-4">
               <div>
-                <h2 className="text-lg font-semibold">
+                <h2 className=" text-lg font-semibold">
                 Q: HOW MANY CUPS OF TEA DOES IT TAKE TO FILL A NISSAN CUBE?
                 </h2>
                 <br/>
@@ -99,6 +97,7 @@ const AboutTemplate = () => {
 
 
           
+      </div>
       </div>
 
       <div className="numbered-blocks__wrapper ">

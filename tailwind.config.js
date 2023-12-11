@@ -23,8 +23,16 @@ module.exports = {
         "xlarge": "1680px",
         "2xlarge": "1920px",
       },
+
+
       fontFamily: {
+
+        suffy: [
+          "Maven Pro",
+          "sans-serif"
+        ],
         sans: [
+          "Maven Pro", 
           "Inter",
           "-apple-system",
           "BlinkMacSystemFont",
@@ -33,7 +41,10 @@ module.exports = {
           "Helvetica Neue",
           "Ubuntu",
           "sans-serif",
-        ],
+          "Helvetica Neue"
+        
+        ]
+    
       },
     },
   },
