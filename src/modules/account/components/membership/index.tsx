@@ -1,5 +1,6 @@
 import { Customer, Order } from "@medusajs/medusa"
 import React, { useEffect, useState } from 'react';
+import Tree from 'react-d3-tree';
 
 
 type OverviewProps = {
@@ -36,33 +37,34 @@ async function fetchReferralTree() {
   }
 }
 
-const renderReferralTree = (referrals: Referral[]): JSX.Element => {
-  return (
-    <>
-    <ul>
-      {referrals.map(referral => (
-        <li key={referral.id}>
-          {referral.email}
-          {referral.referrals && renderReferralTree(referral.referrals)}
-        </li>
-      ))}
-    </ul>
-    <ul className="flex flex-row mt-10 justify-center">
-    <div className="-mt-10 mb-0 border-l-2 absolute h-5 border-gray-400"></div>
-    </ul>
-    </>
-  );
+const convertToTreeStructure = (referrals: Referral[]): any => {
+  return referrals.map(referral => {
+    const node: any = { name: referral.email };
+    if (referral.referrals && referral.referrals.length > 0) {
+      node.children = convertToTreeStructure(referral.referrals); // Only add 'children' if there are child referrals
+    }
+    return node;
+  });
 };
 
+
+// The rest of your Membership component stays the same.
+
+
+
 const Membership = () => {
-  const [referralTree, setReferralTree] = useState<Referral[]>([]);
+  const [referralTree, setReferralTree] = useState<any[]>([]);
+  const [treeData, setTreeData] = useState<any>();
+
   useEffect(() => {
     fetchReferralTree()
       .then(data => {
-        if (data) {
-          console.log(data)
-          setReferralTree(data);
-          console.log(referralTree);
+        if (data && Array.isArray(data)) {
+          const treeStructure = [{
+            name: 'Root', // You can name this whatever is appropriate
+            children: convertToTreeStructure(data)
+          }];
+          setTreeData(treeStructure); // Set the tree data
         }
       })
       .catch(error => {
@@ -84,9 +86,12 @@ const Membership = () => {
             <div className="text-center">
               <div className="flex flex-col justify-center items-center">
               <h3 className="text-large-semi">My Referrals</h3>
-                <ul >
-                    {referralTree.length > 0 && renderReferralTree(referralTree)}                    
-                </ul>
+              {treeData && (
+                  <div style={{ width: '40em', height: '20em' }}>
+                    <Tree data={treeData} orientation="horizontal" />
+                  </div>
+                )}
+          
                </div>
               
             </div>     
