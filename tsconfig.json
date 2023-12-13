@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+  
     "target": "es5",
     "lib": [
       "dom",
@@ -33,11 +34,15 @@
         "pages/*"
       ]
     },
+
+    
     "plugins": [
       {
         "name": "next"
       }
     ]
+
+    
   },
   "include": [
     "next-env.d.ts",

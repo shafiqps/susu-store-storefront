@@ -47,6 +47,10 @@
     "react-icons": "^4.12.0",
     "react-instantsearch-hooks-web": "^6.29.0",
     "react-intersection-observer": "^9.3.4",
+    "react-org-tree": "^1.0.1",
+    "react-organizational-chart": "^2.2.1",
+    "react-orgchart": "^1.0.5",
+    "save": "^2.9.0",
     "sharp": "^0.30.7",
     "uuid": "^9.0.1",
     "webpack": "^5"
