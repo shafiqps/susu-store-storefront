@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import WithdrawalForm from "@modules/account/components/WithdrawalForm"
 import WithdrawalList from "@modules/account/components/WithdrawalList"
 import WithdrawalTable from "@modules/account/components/WithdrawalTable"
+import { useCustomerOrders, useMeCustomer } from "medusa-react"
 
 interface Withdrawal {
   date: string;
@@ -18,6 +19,8 @@ const WithdrawalsPage: React.FC = () => {
     { date: '2023-01-01', totalAmount: 1000, balanceAmount: 800 },
     { date: '2023-01-02', totalAmount: 500, balanceAmount: 400 },
   ]);
+  const { customer } = useMeCustomer()
+
   const [pastWithdrawals, setPastWithdrawals] = useState<Withdrawal[]>([
     // Sample data for demonstration
     { date: '2022-12-01', totalAmount: 1200, balanceAmount: 1000 },
@@ -53,7 +56,7 @@ const WithdrawalsPage: React.FC = () => {
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="mb-8 col-span-full lg:col-span-1">
             <h2 className="text-2xl font-bold mb-2">Withdrawal Request</h2>
-            <WithdrawalForm onSubmit={handleWithdrawalFormSubmit} />
+            <WithdrawalForm onSubmit={handleWithdrawalFormSubmit} customer={customer} />
           </div>
           <div className="mb-8 col-span-full lg:col-span-2"> {/* Updated col-span */}
             <h2 className="text-2xl font-bold mb-2">Pending Withdrawals</h2>
