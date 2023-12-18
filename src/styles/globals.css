@@ -385,7 +385,40 @@ hr {
       stroke: #000;
     }
 
-  
+    .tooltip-text {
+      font-weight: normal;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent backdrop */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000; /* Ensures the backdrop is above other content */
+    }
+    
+    .modal {
+      background-color: white;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 1001; /* Ensures the modal content is above the backdrop */
+    }
+
+    .nested-list {
+      padding-left: 20px; /* Adjust as needed */
+      list-style-type: none; /* Optional, depends on desired style */
+    }
+    
+    .nested-list li {
+      /* Styles for nested list items */
+    }
+    
 
   .contrast-btn {
     @apply px-4 py-2 border border-black rounded-full hover:bg-black hover:text-white transition-colors duration-200 ease-in;

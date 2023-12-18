@@ -3,10 +3,17 @@ import ChevronDown from "@modules/common/icons/chevron-down"
 import clsx from "clsx"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import React, { useState } from 'react';
 
 const AccountNav = () => {
   const route = usePathname()
   const { handleLogout } = useAccount()
+  const [isMembershipDropdownOpen, setMembershipDropdownOpen] = useState(false);
+
+  const toggleMembershipDropdown = () => {
+    setMembershipDropdownOpen(!isMembershipDropdownOpen);
+  };
+
 
   return (
     <div>
@@ -36,10 +43,28 @@ const AccountNav = () => {
                 </AccountNavLink>
               </li>
               <li>
+              <div className="flex items-center justify-between" onClick={toggleMembershipDropdown}>
                 <AccountNavLink href="/account/membership" route={route!}>
                   Membership
                 </AccountNavLink>
+                <ChevronDown className={`transform ${isMembershipDropdownOpen ? 'rotate-180' : 'rotate-0'}`} />
+              </div>
+                {isMembershipDropdownOpen && (
+                  <ul className="nested-list">
+                    <li>
+                      <AccountNavLink href="/account/dashboard" route={route!}>
+                        Dashboard
+                      </AccountNavLink>
+                    </li>
+                  </ul>
+                )}
               </li>
+
+              <li>
+                      <AccountNavLink href="/account/dashboard" route={route!}>
+                        Dashboard
+                      </AccountNavLink>
+                    </li>
               <li>
                 <AccountNavLink href="/account/profile" route={route!}>
                   Profile
