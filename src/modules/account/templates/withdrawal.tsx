@@ -1,30 +1,44 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useCustomerOrders, useMeCustomer } from "medusa-react"
 
 import WithdrawalForm from "@modules/account/components/WithdrawalForm"
 import WithdrawalList from "@modules/account/components/WithdrawalList"
 import WithdrawalTable from "@modules/account/components/WithdrawalTable"
 
-interface Withdrawal {
-  date: string;
-  totalAmount: number;
-  balanceAmount: number;
-}
 
 const WithdrawalsPage: React.FC = () => {
-  const [pendingWithdrawals, setPendingWithdrawals] = useState<Withdrawal[]>([
-    // Sample data for demonstration
-    { date: '2023-01-01', totalAmount: 1000, balanceAmount: 800 },
-    { date: '2023-01-02', totalAmount: 500, balanceAmount: 400 },
-  ]);
-  const [pastWithdrawals, setPastWithdrawals] = useState<Withdrawal[]>([
-    // Sample data for demonstration
-    { date: '2022-12-01', totalAmount: 1200, balanceAmount: 1000 },
-    { date: '2022-12-15', totalAmount: 800, balanceAmount: 700 },
-    { date: '2022-12-28', totalAmount: 1500, balanceAmount: 1200 },
-  ]);
+  const [pendingWithdrawals, setPendingWithdrawals] = useState<Withdrawal[]>([]);
+  const [pastWithdrawals, setPastWithdrawals] = useState<Withdrawal[]>([]);
   const [selectedWithdrawal, setSelectedWithdrawal] = useState<Withdrawal | null>(null);
+  const { customer } = useMeCustomer();
+
+  useEffect(() => {
+    const fetchWithdrawals = async () => {
+      try {
+        const pendingRes = await fetch('http://localhost:9000/store/withdrawals/customer/pending', {
+          method: 'GET',
+          credentials: 'include', // Ensure to send cookies if authentication is needed
+        });
+        const pastRes = await fetch('http://localhost:9000/store/withdrawals/customer/completed', {
+          method: 'GET',
+          credentials: 'include', // Ensure to send cookies if authentication is needed
+        });
+        if (!pendingRes.ok || !pastRes.ok) {
+          throw new Error('Failed to fetch withdrawals');
+        }
+        const pendingData = await pendingRes.json();
+        const pastData = await pastRes.json();
+        setPendingWithdrawals(pendingData.withdrawals); // Access the 'withdrawals' property
+        setPastWithdrawals(pastData.withdrawals); // Access the 'withdrawals' property
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchWithdrawals();
+  }, []);
 
   const handleWithdrawalFormSubmit = (formData: any) => {
     // Logic to handle form submission and update state
@@ -74,7 +88,7 @@ const WithdrawalsPage: React.FC = () => {
        
         <div className="mb-8">
             <h2 className="text-2xl font-bold mb-2">Past Withdrawals</h2>
-            <WithdrawalTable withdrawals={pastWithdrawals} onViewDetails={(index) => handleViewDetails(index, true)} />
+            <WithdrawalTable customer={customer} onViewDetails={(index) => handleViewDetails(index, true)} />
           </div>
           </div>
         </div>
