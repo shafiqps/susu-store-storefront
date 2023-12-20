@@ -120,10 +120,7 @@ const Overview = ({ orders, customer }: OverviewProps) => {
                 </div>
               </div>
             </div>
-            <h3 className="text-large-semi">Comission</h3>
-                  <span className="text-3xl-semi leading-none">
-                    RM {customer?.loyaltyPoints || 0} {/* Display total loyalty points here */}
-                  </span>
+        
                   <h3 className="text-large-semi">Refferal Code</h3>
                   <span className="text-3xl-semi leading-none">
                   {customer?.metadata?.referral_code || "No referral code available"} {/* Display total loyalty points here */}

@@ -1,4 +1,4 @@
-import WthdrawalTemplate from "@modules/account/templates/withdrawal"
+import WithdrawalTemplate from "@modules/account/templates/withdrawal"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 }
 
 export default function Orders() {
-  return <WthdrawalTemplate />
+  return <WithdrawalTemplate />
 }

@@ -40,7 +40,7 @@ const OrderOverview = () => {
       </p>
       <div className="mt-4">
         <Link href="/" passHref>
-          <Button>Continue shopping</Button>
+          <Button className="text-white px-4 py-2 rounded bg-[#0ea5e9]">Continue shopping</Button>
         </Link>
       </div>
     </div>

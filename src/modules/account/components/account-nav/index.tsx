@@ -52,19 +52,13 @@ const AccountNav = () => {
                 {isMembershipDropdownOpen && (
                   <ul className="nested-list">
                     <li>
-                      <AccountNavLink href="/account/dashboard" route={route!}>
+                      <AccountNavLink href="/account/treedashboard" route={route!}>
                         Dashboard
                       </AccountNavLink>
                     </li>
                   </ul>
                 )}
               </li>
-
-              <li>
-                      <AccountNavLink href="/account/dashboard" route={route!}>
-                        Dashboard
-                      </AccountNavLink>
-                    </li>
               <li>
                 <AccountNavLink href="/account/profile" route={route!}>
                   Profile

@@ -3,8 +3,6 @@ import { Customer } from "@medusajs/medusa"
 
 import React, { useState } from 'react';
 
-
-
 interface WithdrawalFormProps {
   onSubmit: (formData: FormData) => void;
   customer?: Omit<Customer, "password_hash"> & {
@@ -13,6 +11,7 @@ interface WithdrawalFormProps {
       referrer?: string;
     };
   };
+
 }
 
 interface FormData {
@@ -21,7 +20,7 @@ interface FormData {
   withdrawalReason: string;
 }
 
-const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ onSubmit, customer }) => {
+const Withdrawal: React.FC<WithdrawalFormProps> = ({ onSubmit, customer }) => {
   const [withdrawalForm, setWithdrawalForm] = useState<FormData>({
     total: 0,
     customer_id: "", // This could be set based on the logged-in user or another source
@@ -77,10 +76,11 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ onSubmit, customer }) =
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-4 p-4 border rounded bg-white">
+   
+    <form onSubmit={handleSubmit} className="mb-4 p-4 border rounded-lg bg-white shadow">
       <h2 className="text-2xl font-bold mb-4">Withdrawal Request</h2>
-      <div className="mb-4">
-        <label className="block text-sm font-bold mb-2">Withdrawal Reason</label>
+      <div className="mb-4 ">
+        <p className="block text-sm font-bold mb-2">Withdrawal Reason</p>
         <input
           type="text"
           name="withdrawalReason"
@@ -88,7 +88,7 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ onSubmit, customer }) =
           onChange={handleInputChange}
           className="w-full border border-gray-300 p-2 rounded"
         />
-        <label className="block text-sm font-bold mb-2">Withdrawal Amount</label>
+        <p className="block text-sm font-bold mt-4">Withdrawal Amount</p>
         <input
           type="number"
           name="total"
@@ -96,19 +96,16 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ onSubmit, customer }) =
           onChange={handleInputChange}
           className="w-full border border-gray-300 p-2 rounded"
         />
-
-{/* Add an input field for customer_id if necessary */}
-
-        
       </div>
 
-      <button type="submit" className="text-white px-4 py-2 rounded bg-black">
+      <button type="submit" className="text-white px-4 py-2 rounded bg-[#0ea5e9]">
         Submit Request
       </button>
     </form>
+
   );
 };
 
-export default WithdrawalForm;
+export default Withdrawal;
 
 

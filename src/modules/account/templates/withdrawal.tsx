@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import WithdrawalForm from "@modules/account/components/WithdrawalForm"
 import WithdrawalList from "@modules/account/components/WithdrawalList"
 import WithdrawalTable from "@modules/account/components/WithdrawalTable"
-import { useCustomerOrders, useMeCustomer } from "medusa-react"
 
 interface Withdrawal {
   date: string;
@@ -19,8 +18,6 @@ const WithdrawalsPage: React.FC = () => {
     { date: '2023-01-01', totalAmount: 1000, balanceAmount: 800 },
     { date: '2023-01-02', totalAmount: 500, balanceAmount: 400 },
   ]);
-  const { customer } = useMeCustomer()
-
   const [pastWithdrawals, setPastWithdrawals] = useState<Withdrawal[]>([
     // Sample data for demonstration
     { date: '2022-12-01', totalAmount: 1200, balanceAmount: 1000 },
@@ -52,12 +49,19 @@ const WithdrawalsPage: React.FC = () => {
   };
 
   return (
-      <div className="container mx-auto p-4 lg:p-8">
-        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+
+    <div>
+    <div className="small:block">
+    <div className="p-4"> 
+    <div className="flex flex-col gap-y-4 h-full col-span-1 row-span-2 flex-1">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    
+      
           <div className="mb-8 col-span-full lg:col-span-1">
             <h2 className="text-2xl font-bold mb-2">Withdrawal Request</h2>
-            <WithdrawalForm onSubmit={handleWithdrawalFormSubmit} customer={customer} />
+            <WithdrawalForm onSubmit={handleWithdrawalFormSubmit} />
           </div>
+
           <div className="mb-8 col-span-full lg:col-span-2"> {/* Updated col-span */}
             <h2 className="text-2xl font-bold mb-2">Pending Withdrawals</h2>
             <WithdrawalList
@@ -66,11 +70,18 @@ const WithdrawalsPage: React.FC = () => {
               onViewDetails={(index) => handleViewDetails(index, false)}
             />
           </div>
-        </section>
-        <section className="mb-8">
-          <h2 className="text-2xl font-bold mb-2">Past Withdrawals</h2>
-          <WithdrawalTable withdrawals={pastWithdrawals} onViewDetails={(index) => handleViewDetails(index, true)} />
-        </section>
+        </div>
+       
+        <div className="mb-8">
+            <h2 className="text-2xl font-bold mb-2">Past Withdrawals</h2>
+            <WithdrawalTable withdrawals={pastWithdrawals} onViewDetails={(index) => handleViewDetails(index, true)} />
+          </div>
+          </div>
+        </div>
+    
+      
+    
+    </div>
       
       {selectedWithdrawal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -86,6 +97,7 @@ const WithdrawalsPage: React.FC = () => {
         </div>
       )}
     </div>
+
   );
 };
 

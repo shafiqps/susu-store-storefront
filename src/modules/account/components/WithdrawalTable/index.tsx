@@ -1,23 +1,55 @@
-import React from 'react';
-
+import React, { useEffect, useState } from 'react';
 interface WithdrawalTableProps {
   withdrawals: any[]; // Adjust the type based on your data structure
   onViewDetails: (index: number) => void; // Add this prop
 }
 
+interface Withdrawal {
+  created_at: string;
+  total: number;
+  balanceAmount: number;
+
+}
+
 const WithdrawalTable: React.FC<WithdrawalTableProps> = ({ withdrawals, onViewDetails }) => {
+  const [pastWithdrawals, setPastWithdrawals] = useState<Withdrawal[]>([]);
+
+  useEffect(() => {
+    const fetchWithdrawals = async () => {
+      try {
+        const response = await fetch('http://localhost:9000/store/withdrawals/customer/completed');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        const withdrawals = data.withdrawals.map((item: any) => ({
+          created_at: item.created_at,
+          total: item.total
+        }));
+        setPastWithdrawals(data); // Assuming the response is an array of withdrawals
+      } catch (error) {
+        console.error('Error fetching withdrawals:', error);
+      }
+    };
+   
+
+    fetchWithdrawals();
+  }, []);
   return (
-    <table className="min-w-full border-collapse border border-gray-300">
-      <thead>
+    <div className="mt-5">
+    <div className="bg-white shadow rounded-lg overflow-hidden responsive-table" style={{ maxHeight: '300px', overflowY: 'auto' }}> 
+    <table className="min-w-full">
+      <thead className='bg-sky-400'>
         <tr>
-          <th className="py-2 px-4 border-b text-left">Date</th>
-          <th className="py-2 px-4 border-b text-left">Total Amount</th>
-          <th className="py-2 px-4 border-b text-left">Balance Amount</th>
-          <th className="py-2 px-4 border-b text-left">Action</th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Date</th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Total Amount</th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Balance Amount</th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Action</th>
         </tr>
       </thead>
       <tbody>
-        {withdrawals.map((withdrawal, index) => (
+        {pastWithdrawals.map((withdrawal, index) => (
+        
           <tr
             key={index}
             className="transition-all hover:bg-gray-100 cursor-pointer"
@@ -25,12 +57,12 @@ const WithdrawalTable: React.FC<WithdrawalTableProps> = ({ withdrawals, onViewDe
           >
             {/* Display past withdrawal details */}
             {/* Adjust columns based on your data structure */}
-            <td className="py-2 px-4 border-b">{withdrawal.date}</td>
-            <td className="py-2 px-4 border-b">${withdrawal.totalAmount.toFixed(2)}</td>
-            <td className="py-2 px-4 border-b">${withdrawal.balanceAmount.toFixed(2)}</td>
+            <td className="py-2 px-4 border-b">{withdrawal.created_at}</td>
+            <td className="py-2 px-4 border-b">${withdrawal.total}</td>
+            <td className="py-2 px-4 border-b">${withdrawal.balanceAmount}</td>
             <td className="py-2 px-4 border-b">
               <button
-                className="text-blue-500 hover:underline"
+                className="text-[#0284c7] hover:underline"
                 onClick={(e) => {
                   e.stopPropagation();
                   onViewDetails(index);
@@ -43,6 +75,8 @@ const WithdrawalTable: React.FC<WithdrawalTableProps> = ({ withdrawals, onViewDe
         ))}
       </tbody>
     </table>
+    </div>
+    </div>
   );
 };
 

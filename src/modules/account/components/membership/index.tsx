@@ -15,7 +15,17 @@ type OverviewProps = {
   };
 };
 
+const getTotalLoyaltyPoints = (orders: Order[] | undefined): number => {
+  if (!orders) {
+    return 0;
+  }
 
+  return orders.reduce((total, order) => {
+    return total + (order.loyaltyPoints || 0);
+  }, 0);
+};
+
+// For Nodes (emails)
 type Referral = {
   id: string;
   email: string;
@@ -25,68 +35,13 @@ type Referral = {
   totalOrders: number;
   created_at: Date;
   totalProfitShare: number;
-  referrals?: Referral[]; // This makes the 'referrals' property recursive
+  referrals?: Referral[]; 
 };
 
-const getTotalLoyaltyPoints = (orders: Order[] | undefined): number => {
-    if (!orders) {
-      return 0;
-    }
-  
-    return orders.reduce((total, order) => {
-      return total + (order.loyaltyPoints || 0);
-    }, 0);
-  };
-  
+// The toggleNode function typically takes a node data argument and toggles its state
+type ToggleNodeFunction = (nodeData: TreeNodeDatum) => void;
 
-async function fetchReferralTree() {
-  try {
-    const response = await fetch('http://localhost:9000/store/customers-metadata', {
-      method: 'GET',
-      credentials: 'include', // Ensure to send cookies if authentication is needed
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data; // This will be the list of referred customers
-  } catch (error) {
-    console.error('Error fetching referral tree:', error);
-  }
-}
-
-const convertToTreeStructure = (referrals: Referral[], rootCustomer?: Omit<Customer, "password_hash">): TreeNodeDatum[] => {
-  return referrals.map(referral => {
-    const node: TreeNodeDatum = {
-      email: referral.email,
-      id: referral.id,
-      loyaltyPoints: referral.loyaltyPoints,
-      first_name: referral.first_name,
-      last_name: referral.last_name,
-      totalOrders: referral.totalOrders,
-      created_at: referral.created_at,
-      totalProfitShare: referral.totalProfitShare,
-      children: referral.referrals ? convertToTreeStructure(referral.referrals) : [],
-      
-    };
-    //if (referral.referrals && referral.referrals.length > 0) {
-      //node.children = convertToTreeStructure(referral.referrals);
-    //}
-    
-    if (rootCustomer && referral.email === rootCustomer.email) {
-        node.first_name = rootCustomer.first_name;
-        node.last_name = rootCustomer.last_name;
-
-        
-        // ... include other root customer properties as needed
-    }
-    return node;
-  });
-};
-
-
+// For Node informations (icon)
 interface TreeNodeDatum {
   children: TreeNodeDatum[];
   email?: string;
@@ -98,16 +53,36 @@ interface TreeNodeDatum {
   totalOrders: number;
   created_at:Date;
   totalProfitShare: number;
-
-
-  
-  // Add other properties that are relevant to your data structure
+  isRoot?: boolean;
 }
 
 
-
-// The toggleNode function typically takes a node data argument and toggles its state
-type ToggleNodeFunction = (nodeData: TreeNodeDatum) => void;
+const convertToTreeStructure = (referrals: Referral[], rootCustomer?: Omit<Customer, "password_hash">): TreeNodeDatum[] => {
+  return referrals.map(referral => {
+    const isRootNode = rootCustomer && referral.email === rootCustomer.email;
+    const node: TreeNodeDatum = {
+      email: referral.email,
+      id: referral.id,
+      loyaltyPoints: referral.loyaltyPoints,
+      first_name: referral.first_name,
+      last_name: referral.last_name,
+      totalOrders: referral.totalOrders,
+      created_at: referral.created_at,
+      totalProfitShare: referral.totalProfitShare,
+      children: referral.referrals ? convertToTreeStructure(referral.referrals) : [],
+      isRoot: isRootNode,
+      
+    };    
+    if (rootCustomer && referral.email === rootCustomer.email) {
+        node.first_name = rootCustomer.first_name;
+        node.last_name = rootCustomer.last_name;
+       
+    }
+    
+    return node;
+    
+  });
+};
 
 interface ModalProps {
   node: TreeNodeDatum; // Use the NodeData type for the node
@@ -119,10 +94,9 @@ interface RenderRectSvgNodeProps {
   nodeDatum: TreeNodeDatum;
   toggleNode?: ToggleNodeFunction; 
   onIconClick: (node: TreeNodeDatum) => void;
-
 }
 
-// Define a Modal component
+
 const Modal: React.FC<ModalProps> = ({ node, onClose})  => {
  const totalPoints = getTotalLoyaltyPoints(node.orders); 
   if (!node) return null; // If no node is selected, don't display the modal
@@ -136,7 +110,6 @@ const Modal: React.FC<ModalProps> = ({ node, onClose})  => {
         <p className="text-gray-600">Date Joined:  <span className="text-black font-medium">{node.created_at}</span></p>
         <p className="text-gray-600">Total Profit Sharing Amount: <span className="text-black font-medium">{node.totalProfitShare || 0}%</span></p>
 
-        {/* Include other information as needed */}
         <button className="fifth-heading w-auto m-2 bg-sky-400 bg-opacity-4 py-2 px-4 rounded-full " onClick={onClose}>Close</button>
       </div>
     </div>
@@ -144,14 +117,19 @@ const Modal: React.FC<ModalProps> = ({ node, onClose})  => {
 };
 
 
-const RectSvgNode: React.FC<RenderRectSvgNodeProps & { onIconClick: (node: TreeNodeDatum) => void, isRootNode?: boolean }> = ({ nodeDatum, toggleNode, onIconClick, isRootNode }) => {
+const RectSvgNode: React.FC<RenderRectSvgNodeProps & { onIconClick: (node: TreeNodeDatum) => void, isRootNode?: boolean }> = ({
+  nodeDatum,
+  toggleNode,
+  onIconClick,
+  isRootNode // this prop indicates if the node is the root
+}) => {
 
   const iconSize = 50; // Size of the icon
   const translateY = -iconSize / 2; // Vertically center align
   const translateX = -iconSize / 2; // Horizontally center align
   const textOffset = 10; 
+  const iconGap = 20; 
   const additionalIconSize = 20;
-  const iconGap = 10; // 
   const iconTextYOffset = iconSize / 2;
   const textYOffset = 10; // Approximate height of the text, adjust as needed
   const additionalIconsYOffset = iconTextYOffset + textYOffset;
@@ -180,9 +158,7 @@ const RectSvgNode: React.FC<RenderRectSvgNodeProps & { onIconClick: (node: TreeN
 
   return (
     <g transform={`translate(${translateX},${translateY})`}>
-
   
-
     <defs>
         <filter id={shadowFilterId} x="-50%" y="-50%" width="200%" height="200%">
           <feGaussianBlur in="SourceAlpha" stdDeviation="3" /> {/* Increase stdDeviation for a larger blur */}
@@ -209,6 +185,17 @@ const RectSvgNode: React.FC<RenderRectSvgNodeProps & { onIconClick: (node: TreeN
           style={{ fill: '#0369a1' }}
         />
       </g>
+      {isRootNode && (
+      <g transform={`translate(0, ${additionalIconsYOffset})`}>
+        {/* User icon */}
+        <FaCrown
+          onClick={() => onIconClick(nodeDatum)}
+          size={`${additionalIconSize}px`}
+          x={iconSize + textOffset + iconGap}
+          style={{ fill: '#facc15' }}
+        />
+      </g>
+       )}
     </g>
   );
 };
@@ -218,14 +205,31 @@ const Membership: React.FC<OverviewProps> = ({ customer }) => {
   const [treeData, setTreeData] = useState<any>();
   const [translate, setTranslate] = useState({ x: 0, y: 0 });
   const [selectedNode, setSelectedNode] = useState<TreeNodeDatum | null>(null);
-  const [nodeOrders, setNodeOrders] = useState<Order[]>([]);
 
   useEffect(() => {
+    async function fetchReferralTree() {
+      try {
+        const response = await fetch('http://localhost:9000/store/customers-metadata', {
+          method: 'GET',
+          credentials: 'include', // Ensure to send cookies if authentication is needed
+        });
+    
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+    
+        const data = await response.json();
+       
+        return data; // This will be the list of referred customers
+      } catch (error) {
+        console.error('Error fetching referral tree:', error);
+      }
+    }
+
     fetchReferralTree()
       .then(data => {
         if (data && Array.isArray(data)) {
           const rootName = customer?.email || "Root";
-          console.log(rootName);
           const treeStructure = [{
             email: rootName, 
             id: "rootID",
@@ -252,7 +256,6 @@ const Membership: React.FC<OverviewProps> = ({ customer }) => {
   const handleIconClick = (node: TreeNodeDatum) => {
     setSelectedNode(node);
     const ordersForNode: Order[] = []; // Replace with actual orders for the node
-    setNodeOrders(ordersForNode);
   };
 
   const handleCloseModal = () => {
@@ -281,8 +284,13 @@ const Membership: React.FC<OverviewProps> = ({ customer }) => {
                       data={treeData} 
                       pathFunc="step" 
                       orientation="vertical" 
-                      renderCustomNodeElement={(rd) => <RectSvgNode {...rd} onIconClick={handleIconClick}/>}
-                  
+                      renderCustomNodeElement={(rd) => (
+                        <RectSvgNode 
+                          {...rd} 
+                          onIconClick={handleIconClick} 
+                        
+                        />
+                      )}                
                       separation={{ 
                          siblings: 2,
                          nonSiblings: 2 }}

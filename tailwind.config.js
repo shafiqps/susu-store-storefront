@@ -6,6 +6,7 @@ module.exports = {
     "./src/modules/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+   
     extend: {
       transitionProperty: {
         "width": "width",

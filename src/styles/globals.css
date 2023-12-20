@@ -411,13 +411,70 @@ hr {
     }
 
     .nested-list {
-      padding-left: 20px; /* Adjust as needed */
+      padding-top: 5px;
+      padding-left: 10px; /* Adjust as needed */
       list-style-type: none; /* Optional, depends on desired style */
     }
     
     .nested-list li {
       /* Styles for nested list items */
     }
+
+    /* Add this CSS in your global stylesheet or inside a <style jsx> tag if you're using styled-jsx */
+@media (max-width: 640px) {
+  .responsive-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .responsive-table table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .responsive-table thead {
+    display: none; /* Hide the header on small screens */
+  }
+
+  .responsive-table tbody,
+  .responsive-table tr,
+  .responsive-table th,
+  .responsive-table td {
+    display: block; /* Use block display to stack the table cells vertically */
+  }
+
+  .responsive-table tr {
+    margin-bottom: 1rem;
+  }
+
+  .responsive-table td {
+    text-align: right; /* Align text to the right in each cell */
+    padding-left: 50%; /* Add padding to separate data from the label */
+    position: relative;
+  }
+
+  .responsive-table td::before {
+    /* Add a pseudo-element to act as a label for the data */
+    content: attr(data-label);
+    position: absolute;
+    left: 0;
+    width: 50%;
+    padding-left: 1rem;
+    font-weight: bold;
+    text-align: left;
+  }
+}
+
+@keyframes flashing {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.flashing-text {
+  animation: flashing 1s linear infinite;
+}
     
 
   .contrast-btn {
