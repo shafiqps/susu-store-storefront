@@ -54,7 +54,7 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ onSubmit, customer }) =
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          total: withdrawalForm.total,
+          total: Math.round(withdrawalForm.total*100),
           customer_id: customer?.id,
           reason: withdrawalForm.withdrawalReason
           // Include other necessary fields
