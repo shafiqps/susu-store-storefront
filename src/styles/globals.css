@@ -475,6 +475,19 @@ hr {
 .flashing-text {
   animation: flashing 1s linear infinite;
 }
+
+.status-pending {
+  color: '#eab308';
+}
+
+.status-approved {
+  color: '#65a30d';
+}
+
+.status-rejected {
+  color: red;
+}
+
     
 
   .contrast-btn {

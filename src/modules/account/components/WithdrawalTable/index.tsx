@@ -20,6 +20,19 @@ interface WithdrawalTableProps {
   };
 }
 
+function getStatusColor(status: string) {
+  switch (status) {
+    case "pending":
+      return "#eab308";
+    case "approved":
+      return "#65a30d";
+    case "rejected":
+      return "red";
+    default:
+      return "inherit"; // or any default color
+  }
+}
+
 const WithdrawalTable: React.FC<WithdrawalTableProps> = ({ customer ,onViewDetails }) => {
   const [withdrawals, setWithdrawals] = useState<Withdrawal[]>([]);
 
@@ -63,9 +76,10 @@ const WithdrawalTable: React.FC<WithdrawalTableProps> = ({ customer ,onViewDetai
                 onClick={() => onViewDetails(withdrawal)}
               >
                 <td className="py-2 px-4 border-b">{new Date(withdrawal.created_at).toLocaleDateString()}</td>
-                <td className="py-2 px-4 border-b">${withdrawal.total}</td>
-                <td className="py-2 px-4 border-b">{withdrawal.status}</td>
+                <td className="py-2 px-4 border-b">RM {withdrawal.total}</td>
+                <td className="py-2 px-4 border-b"><span style={{ color: getStatusColor(withdrawal.status) }}>{withdrawal.status}</span></td>
                 <td className="py-2 px-4 border-b">
+
                   <button
                     className="text-[#0284c7] hover:underline"
                     onClick={(e) => {

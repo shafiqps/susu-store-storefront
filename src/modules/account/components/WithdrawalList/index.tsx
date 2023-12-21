@@ -1,26 +1,89 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Customer } from '@medusajs/medusa';
 
-interface WithdrawalListProps {
-  withdrawals: any[]; // Adjust the type based on your data structure
-  onRemove: (index: number) => void;
-  onViewDetails: (index: number) => void;
+interface Withdrawal {
+  id: string;
+  created_at: string;
+  total: string;
+  status: string;
+  reason: string;
+  customer_id: string;
 }
 
-const WithdrawalList: React.FC<WithdrawalListProps> = ({ withdrawals, onRemove, onViewDetails }) => {
+interface WithdrawalListProps {
+  onViewDetails: (withdrawal: Withdrawal) => void;
+  onRemove: (index: number) => void;
+  customer?: Omit<Customer, "password_hash"> & {
+    metadata?: {
+      referral_code?: string;
+      referrer?: string;
+    };
+  };
+}
+
+function getStatusColor(status: string) {
+  switch (status) {
+    case "pending":
+      return "#eab308";
+    case "approved":
+      return "#65a30d";
+    case "rejected":
+      return "red";
+    default:
+      return "inherit"; // or any default color
+  }
+}
+
+
+//interface WithdrawalListProps {
+  //withdrawals: any[]; // Adjust the type based on your data structure
+  //onRemove: (index: number) => void;
+  //onViewDetails: (index: number) => void;
+//}
+
+const WithdrawalList: React.FC<WithdrawalListProps> = ({ customer, onRemove, onViewDetails }) => {
+  const [withdrawals, setWithdrawals] = useState<Withdrawal[]>([]);
+
+  useEffect(() => {
+    const fetchWithdrawals = async () => {
+      try {
+        const response = await fetch('http://localhost:9000/store/withdrawals/customer/pending', {
+          method: 'GET',
+          credentials: 'include', // Ensure to send cookies if authentication is needed
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch withdrawals');
+        }
+        const data = await response.json();
+        setWithdrawals(data.withdrawals);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchWithdrawals();
+  }, []);
+
   return (
     <div className="mt-10">
     <div className="bg-white shadow rounded-lg overflow-hidden responsive-table" style={{ maxHeight: '300px', overflowY: 'auto' }}>  
+    {withdrawals.length === 0 ? (
+    <div className="p-4 text-center">No pending withdrawals currently</div>
+    ) : (
     <ul>
       {withdrawals.map((withdrawal, index) => (
-        <li key={index} className="flex justify-between items-center mb-4 p-4 border rounded">
+        <li key={withdrawal.id} className="flex justify-between items-center mb-4 p-4 border rounded">
           <div>
             <h3 className="text-lg font-bold mb-2">Withdrawal #{index + 1}</h3>
-            <p>Date: {withdrawal.date}</p>
-            <p>Total Amount: {withdrawal.totalAmount}</p>
-            <p>Balance Amount: {withdrawal.balanceAmount}</p>
+            <p>Date: {new Date(withdrawal.created_at).toLocaleDateString()}</p>
+            <p>Total Amount: RM {withdrawal.total}</p>
+            <p >Status: <span style={{ color: getStatusColor(withdrawal.status) }}>{withdrawal.status}</span> </p>
+
+               
+           
           </div>
           <div className="flex items-center space-x-4">
-       <button onClick={() => onViewDetails(index)} className="bg-[#0ea5e9] text-white text-xs sm:text-sm px-2 sm:px-4 py-1 sm:py-2 rounded">
+       <button onClick={() => onViewDetails(withdrawal)} className="bg-[#0ea5e9] text-white text-xs sm:text-sm px-2 sm:px-4 py-1 sm:py-2 rounded">
               View Details
             </button>
             <button onClick={() => onRemove(index)} className="text-red-500">
@@ -30,6 +93,7 @@ const WithdrawalList: React.FC<WithdrawalListProps> = ({ withdrawals, onRemove, 
         </li>
       ))}
     </ul>
+    )}
     </div>
     </div>
   );

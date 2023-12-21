@@ -7,6 +7,19 @@ import WithdrawalForm from "@modules/account/components/WithdrawalForm"
 import WithdrawalList from "@modules/account/components/WithdrawalList"
 import WithdrawalTable from "@modules/account/components/WithdrawalTable"
 
+function getStatusColor(status: string) {
+  switch (status) {
+    case "pending":
+      return "#eab308";
+    case "approved":
+      return "#65a30d";
+    case "rejected":
+      return "red";
+    default:
+      return "inherit"; // or any default color
+  }
+}
+
 
 const WithdrawalsPage: React.FC = () => {
   const [pendingWithdrawals, setPendingWithdrawals] = useState<Withdrawal[]>([]);
@@ -46,15 +59,19 @@ const WithdrawalsPage: React.FC = () => {
 
   const handleRemovePendingWithdrawal = (index: number) => {
     // Logic to remove pending withdrawal and update state
-    setPendingWithdrawals((prevWithdrawals) => [
-      ...prevWithdrawals.slice(0, index),
-      ...prevWithdrawals.slice(index + 1),
+    setPendingWithdrawals((pendingWithdrawals) => [
+      ...pendingWithdrawals.slice(0, index),
+      ...pendingWithdrawals.slice(index + 1),
     ]);
   };
 
-  const handleViewDetails = (index: number, isPast: boolean) => {
+  //const handleViewDetails = (index: number, isPast: boolean) => {
     // Logic to set the selected withdrawal and show details
-    setSelectedWithdrawal(isPast ? pastWithdrawals[index] : pendingWithdrawals[index]);
+    //setSelectedWithdrawal(isPast ? pastWithdrawals[index] : pendingWithdrawals[index]);
+  //};
+
+  const handleViewDetails = (withdrawal: Withdrawal) => {
+    setSelectedWithdrawal(withdrawal);
   };
 
   const handleCloseDetails = () => {
@@ -79,9 +96,10 @@ const WithdrawalsPage: React.FC = () => {
           <div className="mb-8 col-span-full lg:col-span-2"> {/* Updated col-span */}
             <h2 className="text-2xl font-bold mb-2">Pending Withdrawals</h2>
             <WithdrawalList
+              customer={customer}
               withdrawals={pendingWithdrawals}
               onRemove={handleRemovePendingWithdrawal}
-              onViewDetails={(index) => handleViewDetails(index, false)}
+              onViewDetails={(withdrawal) => handleViewDetails(withdrawal)}
             />
           </div>
         </div>
@@ -98,15 +116,17 @@ const WithdrawalsPage: React.FC = () => {
     </div>
       
       {selectedWithdrawal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-4 lg:p-8">
+        <div className="modal-backdrop">
+          <div className="modal">
             <h2 className="text-2xl font-bold mb-2">Withdrawal Details</h2>
-            <p>Date: {selectedWithdrawal.date}</p>
-            <p>Total Amount: ${selectedWithdrawal.totalAmount.toFixed(2)}</p>
-            <p>Balance Amount: ${selectedWithdrawal.balanceAmount.toFixed(2)}</p>
-            <button onClick={handleCloseDetails} className="bg-black text-white px-4 py-2 rounded lg:px-6 lg:py-3">
+            <p>Date: {new Date(selectedWithdrawal.created_at).toLocaleDateString()}</p>
+            <p>Total Amount: RM{selectedWithdrawal.total}</p>
+            <p >Status: <span style={{ color: getStatusColor(selectedWithdrawal.status) }}>{selectedWithdrawal.status}</span> </p>
+            <div className="flex justify-center">
+            <button onClick={handleCloseDetails} className="fifth-heading w-auto m-2 bg-sky-400 bg-opacity-4 py-2 px-4 rounded-full">
               Close
             </button>
+            </div>
           </div>
         </div>
       )}
