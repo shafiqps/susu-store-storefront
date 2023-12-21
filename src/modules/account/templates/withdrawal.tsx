@@ -131,6 +131,7 @@ const WithdrawalsPage: React.FC = () => {
           </div>
         </div>
       )}
+
     </div>
 
   );

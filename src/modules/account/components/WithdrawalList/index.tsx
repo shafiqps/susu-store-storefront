@@ -43,9 +43,11 @@ function getStatusColor(status: string) {
 
 const WithdrawalList: React.FC<WithdrawalListProps> = ({ customer, onRemove, onViewDetails }) => {
   const [withdrawals, setWithdrawals] = useState<Withdrawal[]>([]);
+  
 
   useEffect(() => {
     const fetchWithdrawals = async () => {
+     
       try {
         const response = await fetch('http://localhost:9000/store/withdrawals/customer/pending', {
           method: 'GET',
@@ -59,30 +61,41 @@ const WithdrawalList: React.FC<WithdrawalListProps> = ({ customer, onRemove, onV
       } catch (error) {
         console.error('Error:', error);
       }
+
     };
 
     fetchWithdrawals();
   }, []);
-
   
-  const handleRemove = async (withdrawalToRemove: { id: string; }) => {
-    try {
-      // Send DELETE request to your API endpoint
-      const response = await fetch(`http://localhost:9000/store/withdrawals/${withdrawalToRemove.id}`, {
-        method: 'DELETE',
-        credentials: 'include', // If needed for authentication
-        // Add headers if required by your API
-      });
+  
+  const [removingIds, setRemovingIds] = useState<Set<string>>(new Set());
 
-      if (!response.ok) {
-        throw new Error('Failed to delete withdrawal');
-      }
-
-      // Update the state to remove the deleted withdrawal
-      setWithdrawals(withdrawals.filter(withdrawal => withdrawal.id !== withdrawalToRemove.id));
-    } catch (error) {
-      console.error('Error:', error);
-      // Optionally, handle the error in the UI, like showing a notification
+  const handleRemove = async (withdrawalToRemove: Withdrawal) => {
+    const isConfirmed = window.confirm("Are you sure you want to remove this withdrawal request?");
+    if (isConfirmed) {
+      setRemovingIds(new Set([...removingIds, withdrawalToRemove.id]));
+  
+      // Add a delay to allow for the animation to complete before actually removing the item
+      setTimeout(async () => {
+        try {
+           const response = await fetch(`http://localhost:9000/store/withdrawals/${withdrawalToRemove.id}`, {
+          method: 'DELETE',
+          credentials: 'include', // If needed for authentication
+          // Add headers if required by your API
+        });
+  
+        if (!response.ok) {
+          throw new Error('Failed to delete withdrawal');
+        }
+          
+          setWithdrawals(withdrawals.filter(withdrawal => withdrawal.id !== withdrawalToRemove.id));
+          setRemovingIds(new Set([...removingIds].filter(id => id !== withdrawalToRemove.id)));
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      }, 300); // Duration of the animation
+    } else {
+      console.log("Removal cancelled by the user.");
     }
   };
 
@@ -94,7 +107,7 @@ const WithdrawalList: React.FC<WithdrawalListProps> = ({ customer, onRemove, onV
     ) : (
     <ul>
       {withdrawals.map((withdrawal, index) => (
-        <li key={withdrawal.id} className="flex justify-between items-center mb-4 p-4 border rounded">
+      <li key={withdrawal.id} className={`flex justify-between items-center mb-4 p-4 border rounded ${removingIds.has(withdrawal.id) ? 'removing-item' : ''}`}>
           <div>
             <h3 className="text-lg font-bold mb-2">Withdrawal #{index + 1}</h3>
             <p>Date: {new Date(withdrawal.created_at).toLocaleDateString()}</p>
