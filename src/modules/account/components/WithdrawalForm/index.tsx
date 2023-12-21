@@ -54,7 +54,11 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ onSubmit, customer }) =
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+<<<<<<< HEAD
           total: Math.round(withdrawalForm.total * 100 ),
+=======
+          total: Math.round(withdrawalForm.total*100),
+>>>>>>> 801dd7f0e596ad21b36a9e9971c1862f7a5a8c4d
           customer_id: customer?.id,
           reason: withdrawalForm.withdrawalReason
           // Include other necessary fields
@@ -76,10 +80,17 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ onSubmit, customer }) =
   };
 
   return (
+<<<<<<< HEAD
     <form onSubmit={handleSubmit} className="mb-4 p-4 border rounded-lg bg-white shadow">
       <h2 className="text-2xl font-bold mb-4">Withdrawal Request</h2>
       <div className="mb-4">
         <p className="block text-sm font-bold mb-2">Withdrawal Reason</p>
+=======
+    <form onSubmit={handleSubmit} className="mb-4 p-4 border rounded bg-white">
+      <h2 className="text-2xl font-bold mb-4">Withdrawal Request</h2>
+      <div className="mb-4">
+        <label className="block text-sm font-bold mb-2">Withdrawal Reason</label>
+>>>>>>> 801dd7f0e596ad21b36a9e9971c1862f7a5a8c4d
         <input
           type="text"
           name="withdrawalReason"
@@ -87,7 +98,7 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ onSubmit, customer }) =
           onChange={handleInputChange}
           className="w-full border border-gray-300 p-2 rounded"
         />
-        <p className="block text-sm font-bold mt-4">Withdrawal Amount</p>
+        <label className="block text-sm font-bold mb-2">Withdrawal Amount</label>
         <input
           type="number"
           name="total"
@@ -101,7 +112,7 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ onSubmit, customer }) =
 
       </div>
 
-      <button type="submit" className="text-white px-4 py-2 rounded bg-[#0ea5e9]">
+      <button type="submit" className="text-white px-4 py-2 rounded bg-black">
         Submit Request
       </button>
     </form>
