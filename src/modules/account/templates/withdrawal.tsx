@@ -90,7 +90,7 @@ const WithdrawalsPage: React.FC = () => {
       
           <div className="mb-8 col-span-full lg:col-span-1">
             <h2 className="text-2xl font-bold mb-2">Withdrawal Request</h2>
-            <WithdrawalForm onSubmit={handleWithdrawalFormSubmit} />
+            <WithdrawalForm onSubmit={handleWithdrawalFormSubmit} customer={customer} />
           </div>
 
           <div className="mb-8 col-span-full lg:col-span-2"> {/* Updated col-span */}
