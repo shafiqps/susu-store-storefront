@@ -82,7 +82,7 @@ const WithdrawalTable: React.FC<WithdrawalTableProps> = ({ customer ,onViewDetai
                 onClick={() => onViewDetails(withdrawal)}
               >
                 <td className="py-2 px-4 border-b">{new Date(withdrawal.created_at).toLocaleDateString()}</td>
-                <td className="py-2 px-4 border-b">RM {withdrawal.total}</td>
+                <td className="py-2 px-4 border-b">RM {withdrawal.total/100}</td>
                 <td className="py-2 px-4 border-b"><span style={{ color: getStatusColor(withdrawal.status) }}>{withdrawal.status}</span></td>
                 <td className="py-2 px-4 border-b">
 

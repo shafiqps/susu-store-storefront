@@ -54,7 +54,7 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ onSubmit, customer }) =
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          total: withdrawalForm.total,
+          total: Math.round(withdrawalForm.total * 100 ),
           customer_id: customer?.id,
           reason: withdrawalForm.withdrawalReason
           // Include other necessary fields
@@ -76,10 +76,10 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ onSubmit, customer }) =
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-4 p-4 border rounded bg-white">
+    <form onSubmit={handleSubmit} className="mb-4 p-4 border rounded-lg bg-white shadow">
       <h2 className="text-2xl font-bold mb-4">Withdrawal Request</h2>
       <div className="mb-4">
-        <label className="block text-sm font-bold mb-2">Withdrawal Reason</label>
+        <p className="block text-sm font-bold mb-2">Withdrawal Reason</p>
         <input
           type="text"
           name="withdrawalReason"
@@ -87,7 +87,7 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ onSubmit, customer }) =
           onChange={handleInputChange}
           className="w-full border border-gray-300 p-2 rounded"
         />
-        <label className="block text-sm font-bold mb-2">Withdrawal Amount</label>
+        <p className="block text-sm font-bold mt-4">Withdrawal Amount</p>
         <input
           type="number"
           name="total"
@@ -101,7 +101,7 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ onSubmit, customer }) =
 
       </div>
 
-      <button type="submit" className="text-white px-4 py-2 rounded bg-black">
+      <button type="submit" className="text-white px-4 py-2 rounded bg-[#0ea5e9]">
         Submit Request
       </button>
     </form>
