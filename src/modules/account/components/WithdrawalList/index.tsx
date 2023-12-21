@@ -12,7 +12,7 @@ interface Withdrawal {
 
 interface WithdrawalListProps {
   onViewDetails: (withdrawal: Withdrawal) => void;
-  onRemove: (index: number) => void;
+  onRemove: (withdrawal: Withdrawal) => void;
   customer?: Omit<Customer, "password_hash"> & {
     metadata?: {
       referral_code?: string;
@@ -64,6 +64,28 @@ const WithdrawalList: React.FC<WithdrawalListProps> = ({ customer, onRemove, onV
     fetchWithdrawals();
   }, []);
 
+  
+  const handleRemove = async (withdrawalToRemove: { id: string; }) => {
+    try {
+      // Send DELETE request to your API endpoint
+      const response = await fetch(`http://localhost:9000/store/withdrawals/${withdrawalToRemove.id}`, {
+        method: 'DELETE',
+        credentials: 'include', // If needed for authentication
+        // Add headers if required by your API
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete withdrawal');
+      }
+
+      // Update the state to remove the deleted withdrawal
+      setWithdrawals(withdrawals.filter(withdrawal => withdrawal.id !== withdrawalToRemove.id));
+    } catch (error) {
+      console.error('Error:', error);
+      // Optionally, handle the error in the UI, like showing a notification
+    }
+  };
+
   return (
     <div className="mt-10">
     <div className="bg-white shadow rounded-lg overflow-hidden responsive-table" style={{ maxHeight: '300px', overflowY: 'auto' }}>  
@@ -86,7 +108,7 @@ const WithdrawalList: React.FC<WithdrawalListProps> = ({ customer, onRemove, onV
        <button onClick={() => onViewDetails(withdrawal)} className="bg-[#0ea5e9] text-white text-xs sm:text-sm px-2 sm:px-4 py-1 sm:py-2 rounded">
               View Details
             </button>
-            <button onClick={() => onRemove(index)} className="text-red-500">
+            <button onClick={() => handleRemove(withdrawal)} className="text-red-500">
               Remove
             </button>
           </div>

@@ -59,6 +59,7 @@ const WithdrawalTable: React.FC<WithdrawalTableProps> = ({ customer ,onViewDetai
   return (
     <div className="mt-5">
       <div className="bg-white shadow rounded-lg overflow-hidden responsive-table" style={{ maxHeight: '300px', overflowY: 'auto' }}> 
+    
         <table className="min-w-full">
           <thead className='bg-sky-400'>
             <tr>
@@ -68,7 +69,12 @@ const WithdrawalTable: React.FC<WithdrawalTableProps> = ({ customer ,onViewDetai
               <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">Action</th>
             </tr>
           </thead>
+          {withdrawals.length === 0 ? (
+            
+            <div className="p-4 text-center">No withdrawals currently</div>
+            ) : (
           <tbody>
+      
             {withdrawals.map((withdrawal, index) => (
               <tr
                 key={withdrawal.id}
@@ -91,9 +97,13 @@ const WithdrawalTable: React.FC<WithdrawalTableProps> = ({ customer ,onViewDetai
                   </button>
                 </td>
               </tr>
+               
             ))}
+            
           </tbody>
+             )}
         </table>
+ 
       </div>
     </div>
   );
