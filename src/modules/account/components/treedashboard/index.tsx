@@ -197,7 +197,7 @@ const TreeDashboard = ({ orders, customer }: OverviewProps) => {
               {customer?.first_name === earner.first_name && <span className="inline-block ml-2 font-semibold text-sky-700 flashing-text">(You're here!)</span>}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex justify-between items-center" data-label="Earnings">
-            RM {earner.loyaltyPoints || 0}
+            RM {earner.loyaltyPoints/100 || 0}
             {index === 0 ? <FaCrown className="inline-block ml-2 text-[#fbbf24]" /> : 
             index === 1 ? <FaCrown className="inline-block ml-2 text-[silve]" /> : 
             index === 2 ? <FaCrown className="inline-block ml-2 text-[#78350f]" /> : null} 

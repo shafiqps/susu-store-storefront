@@ -34,7 +34,7 @@ type Referral = {
   last_name: string;
   totalOrders: number;
   created_at: Date;
-  totalProfitShare: number;
+  totalBulkPurchase: number;
   referrals?: Referral[]; 
 };
 
@@ -52,7 +52,7 @@ interface TreeNodeDatum {
   orders?: Order[];
   totalOrders: number;
   created_at:Date;
-  totalProfitShare: number;
+  totalBulkPurchase: number;
   isRoot?: boolean;
 }
 
@@ -68,7 +68,7 @@ const convertToTreeStructure = (referrals: Referral[], rootCustomer?: Omit<Custo
       last_name: referral.last_name,
       totalOrders: referral.totalOrders,
       created_at: referral.created_at,
-      totalProfitShare: referral.totalProfitShare,
+      totalBulkPurchase: referral.totalBulkPurchase,
       children: referral.referrals ? convertToTreeStructure(referral.referrals) : [],
       isRoot: isRootNode,
       
@@ -106,9 +106,9 @@ const Modal: React.FC<ModalProps> = ({ node, onClose})  => {
         <h2 className="text-xl-semi">User Information</h2>
         <p className="text-gray-600">UserName: <span className="text-black font-medium">{node.first_name +" "+ node.last_name}</span></p>
         <p className="text-gray-600">Total Orders: <span className="text-black font-medium">{node.totalOrders || 0}</span></p>
-        <p className="text-gray-600">Total Commissions: RM <span className="text-black font-medium">{node.loyaltyPoints || 0}</span></p>
-        <p className="text-gray-600">Date Joined:  <span className="text-black font-medium">{node.created_at}</span></p>
-        <p className="text-gray-600">Total Profit Sharing Amount: <span className="text-black font-medium">{node.totalProfitShare || 0}%</span></p>
+        <p className="text-gray-600">Total Commissions: RM <span className="text-black font-medium">{node.loyaltyPoints/100 || 0}</span></p>                                         
+        <p className="text-gray-600">Date Joined:  <span className="text-black font-medium">{new Date(node.created_at).toLocaleDateString()}</span></p>
+        <p className="text-gray-600">Total Bulk Purchase: <span className="text-black font-medium">{node.totalBulkPurchase || 0}</span></p>
 
         <button className="fifth-heading w-auto m-2 bg-sky-400 bg-opacity-4 py-2 px-4 rounded-full " onClick={onClose}>Close</button>
       </div>
@@ -238,7 +238,7 @@ const Membership: React.FC<OverviewProps> = ({ customer }) => {
             loyaltyPoints: customer?.loyaltyPoints,
             totalOrders: customer?.totalOrders,
             created_at: customer?.created_at,
-            totalProfitShare: customer?.totalProfitShare,
+            totalBulkPurchase: customer?.totalBulkPurchase,
             children: convertToTreeStructure(data, customer),
           
           }];

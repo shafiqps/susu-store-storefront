@@ -121,7 +121,7 @@ const WithdrawalsPage: React.FC = () => {
           <div className="modal">
             <h2 className="text-2xl font-bold mb-2">Withdrawal Details</h2>
             <p>Date: {new Date(selectedWithdrawal.created_at).toLocaleDateString()}</p>
-            <p>Total Amount: RM{selectedWithdrawal.total}</p>
+            <p>Total Amount: RM {selectedWithdrawal.total/100}</p>
             <p >Status: <span style={{ color: getStatusColor(selectedWithdrawal.status) }}>{selectedWithdrawal.status}</span> </p>
             <div className="flex justify-center">
             <button onClick={handleCloseDetails} className="fifth-heading w-auto m-2 bg-sky-400 bg-opacity-4 py-2 px-4 rounded-full">
