@@ -4,7 +4,7 @@ import Tree from 'react-d3-tree';
 import { LuMilk } from "react-icons/lu";
 import { FaUser } from "react-icons/fa";
 import { FaCrown } from "react-icons/fa";
-
+import { BiSolidCrown } from "react-icons/bi";
 type OverviewProps = {
   orders?: Order[];
   customer?: Omit<Customer, "password_hash"> & {
@@ -121,14 +121,13 @@ const RectSvgNode: React.FC<RenderRectSvgNodeProps & { onIconClick: (node: TreeN
   nodeDatum,
   toggleNode,
   onIconClick,
-  isRootNode // this prop indicates if the node is the root
 }) => {
 
   const iconSize = 50; // Size of the icon
   const translateY = -iconSize / 2; // Vertically center align
   const translateX = -iconSize / 2; // Horizontally center align
   const textOffset = 10; 
-  const iconGap = 20; 
+  const iconGap = 25; 
   const additionalIconSize = 20;
   const iconTextYOffset = iconSize / 2;
   const textYOffset = 10; // Approximate height of the text, adjust as needed
@@ -185,17 +184,15 @@ const RectSvgNode: React.FC<RenderRectSvgNodeProps & { onIconClick: (node: TreeN
           style={{ fill: '#0369a1' }}
         />
       </g>
-      {isRootNode && (
       <g transform={`translate(0, ${additionalIconsYOffset})`}>
-        {/* User icon */}
-        <FaCrown
-          onClick={() => onIconClick(nodeDatum)}
+      {nodeDatum.isRoot && (
+        <BiSolidCrown
           size={`${additionalIconSize}px`}
-          x={iconSize + textOffset + iconGap}
-          style={{ fill: '#facc15' }}
+          x={iconSize + textOffset + iconGap }
+          style={{ fill: 'gold', cursor: 'pointer' }} 
         />
+      )}
       </g>
-       )}
     </g>
   );
 };
@@ -239,6 +236,7 @@ const Membership: React.FC<OverviewProps> = ({ customer }) => {
             totalOrders: customer?.totalOrders,
             created_at: customer?.created_at,
             totalBulkPurchase: customer?.totalBulkPurchase,
+            isRoot: true, 
             children: convertToTreeStructure(data, customer),
           
           }];
