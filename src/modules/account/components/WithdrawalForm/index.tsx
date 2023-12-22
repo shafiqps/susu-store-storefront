@@ -51,6 +51,11 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ onSubmit, customer }) =
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    //if (withdrawalForm.total > (customer?.loyaltyPoints)) {
+      //alert("Withdrawal amount cannot exceed loyalty points.");
+      //return;
+    //}
   
     const isConfirmed = window.confirm("Are you sure you want to submit this request?");
 
@@ -129,6 +134,7 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ onSubmit, customer }) =
           name="total"
           value={withdrawalForm.total}
           onChange={handleInputChange}
+          
           className="w-full border border-gray-300 p-2 rounded"
           required
         />
@@ -138,7 +144,7 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ onSubmit, customer }) =
 
       </div>
 
-      <button type="submit" className="text-white px-4 py-2 rounded bg-[#0ea5e9]">
+      <button type="submit" className="text-white px-4 py-2 mb-6 rounded bg-[#0ea5e9]">
         Submit Request
       </button>
 

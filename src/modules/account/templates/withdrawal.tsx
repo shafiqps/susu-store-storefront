@@ -85,17 +85,23 @@ const WithdrawalsPage: React.FC = () => {
     <div>
     <div className="small:block">
     <div className="p-4"> 
+    <div className="mb-8 flex flex-col gap-y-4">
+    <h1 className="text-2xl-semi">Withdrawals</h1>
+      <p className="text-base-regular">
+      Manage your withdrawal requests and review their statuses. Submit new requests and track pending and past transactions efficiently.
+      </p>
+    </div>
     <div className="flex flex-col gap-y-4 h-full col-span-1 row-span-2 flex-1">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     
       
           <div className="mb-8 col-span-full lg:col-span-1">
-            <h2 className="text-2xl font-bold mb-2">Withdrawal Request</h2>
+   
             <WithdrawalForm onSubmit={handleWithdrawalFormSubmit} customer={customer} />
           </div>
 
           <div className="mb-8 col-span-full lg:col-span-2"> {/* Updated col-span */}
-            <h2 className="text-2xl font-bold mb-2">Pending Withdrawals</h2>
+            <h2 className="text-2xl font-bold">Pending Withdrawals</h2>
             <WithdrawalList
               customer={customer}
               withdrawals={pendingWithdrawals}

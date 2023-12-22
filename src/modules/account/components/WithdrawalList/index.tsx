@@ -100,15 +100,16 @@ const WithdrawalList: React.FC<WithdrawalListProps> = ({ customer, onRemove, onV
   };
 
   return (
-    <div className="mt-10">
+    <div className="mt-2">
     <div className="bg-white shadow rounded-lg overflow-hidden responsive-table" style={{ maxHeight: '300px', overflowY: 'auto' }}>  
     {withdrawals.length === 0 ? (
     <div className="p-4 text-center">No pending withdrawals currently</div>
     ) : (
-    <ul>
+    <ul className='p-4'>
       {withdrawals.map((withdrawal, index) => (
+      
       <li key={withdrawal.id} className={`flex justify-between items-center mb-4 p-4 border rounded ${removingIds.has(withdrawal.id) ? 'removing-item' : ''}`}>
-          <div>
+          <div className="">
             <h3 className="text-lg font-bold mb-2">Withdrawal #{index + 1}</h3>
             <p>Date: {new Date(withdrawal.created_at).toLocaleDateString()}</p>
             <p>Total Amount: RM {withdrawal.total / 100}</p>
@@ -117,6 +118,7 @@ const WithdrawalList: React.FC<WithdrawalListProps> = ({ customer, onRemove, onV
                
            
           </div>
+        
           <div className="flex items-center space-x-4">
        <button onClick={() => onViewDetails(withdrawal)} className="bg-[#0ea5e9] text-white text-xs sm:text-sm px-2 sm:px-4 py-1 sm:py-2 rounded">
               View Details
@@ -125,7 +127,9 @@ const WithdrawalList: React.FC<WithdrawalListProps> = ({ customer, onRemove, onV
               Remove
             </button>
           </div>
+          
         </li>
+        
       ))}
     </ul>
     )}
