@@ -17,56 +17,54 @@ const AccountNav = () => {
 
   return (
     <div>
-      <div className="small:hidden">
-        {route !== "/account" && (
-          <Link
-            href="/account"
-            className="flex items-center gap-x-2 text-small-regular py-2"
-          >
-            <>
-              <ChevronDown className="transform rotate-90" />
-              <span>Account</span>
-            </>
-          </Link>
-        )}
-      </div>
       <div className="hidden small:block">
         <div>
-          <div className="py-4">
-            <h3 className="text-base-semi">Account</h3>
+    
+          <div className="flex items-center" onClick={toggleMembershipDropdown}>
+            <h3 className="text-base-regular">Account</h3>
+            <ChevronDown className={`transform ${isMembershipDropdownOpen ? 'rotate-180' : 'rotate-0'}`} />
           </div>
-          <div className="text-base-regular">
-            <ul className="flex mb-0 justify-start items-start flex-col gap-y-4">
-              <li>
-                <AccountNavLink href="/account" route={route!}>
-                  Overview
-                </AccountNavLink>
-              </li>
-              <li>
-              <div className="flex items-center justify-between" onClick={toggleMembershipDropdown}>
-                <AccountNavLink href="/account/membership" route={route!}>
-                  Membership
-                </AccountNavLink>
-                <ChevronDown className={`transform ${isMembershipDropdownOpen ? 'rotate-180' : 'rotate-0'}`} />
-              </div>
-                {isMembershipDropdownOpen && (
+          {isMembershipDropdownOpen && (
+               <div className="text-base-regular">
                   <ul className="nested-list">
                     <li>
+                 
+                      <AccountNavLink href="/account" route={route!}>
+                        Overview
+                      </AccountNavLink>
+                    </li>
+                   
+                  </ul>
+                  </div>
+                )}
+          <div className="text-base-regular">
+            <ul className="flex mb-0 mt-3 justify-start items-start flex-col gap-y-4">
+              <li>
                       <AccountNavLink href="/account/treedashboard" route={route!}>
                         Dashboard
                       </AccountNavLink>
-                    </li>
-                  </ul>
-                )}
+              </li>
+              <li>
+       
+                <AccountNavLink href="/account/membership" route={route!}>
+                  Membership
+                </AccountNavLink>
+         
               </li>
               <li>
                 <AccountNavLink href="/account/profile" route={route!}>
                   Profile
                 </AccountNavLink>
               </li>
+              
                 <AccountNavLink href="/account/Withdrawal" route={route!}>
                   Withdrawal
                 </AccountNavLink>
+              <li>
+                <AccountNavLink href="/account/rewards" route={route!}>
+                  Rewards
+                </AccountNavLink>
+              </li>
               <li>
                 <AccountNavLink href="/account/addresses" route={route!}>
                   Addresses

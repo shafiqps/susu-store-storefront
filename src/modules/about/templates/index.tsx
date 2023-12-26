@@ -1,11 +1,14 @@
 import Image from "next/image";
 
+
 const AboutTemplate = () => {
   return (
+
+
     <div className="about-section w-full ">
       {/* Existing Hero Section */}
       <div className="about-us-hero container">
-        <div className="about-us-hero"
+        <div className="about-us-hero container h-128 md:h-96 sm:h-64"
         >
           <Image
             src="/MILK.jpg"
@@ -14,21 +17,22 @@ const AboutTemplate = () => {
             objectFit="cover"
             priority={true}
             quality={100}
-            className="z-0"
+            className="max-w-screen-2xl"
+
           />
 
             <h1 className="font-suffy font-bold text-black-800">
               Introducing SUFFY SUSU
             </h1>
         </div>
-            <p className="font-suffy hero-subtext text-black-400 container-xl">
+        <p className="font-suffy hero-subtext text-black-400 container-xl">
               
-Suffy is a brand of bumiputra formula milk products and Muslim products that are processed and produced from their own factory in Ipoh, Perak. Suffy offers a wide variety of milk based on goat's milk and cow's milk for children, adults and the elderly.
-<br/>
-<br/>
-Suffy products have Malaysian HALAL and HACCP certificates. Suffy is also a member of the Malaysian Muslim Consumer Association (PPIM). It is certain that the safety and quality of Suffy products are constantly monitored and in line with the needs of parents who want to find quality milk products.
-            </p>
-        
+        Suffy is a brand of bumiputra formula milk products and Muslim products that are processed and produced from their own factory in Ipoh, Perak. Suffy offers a wide variety of milk based on goat's milk and cow's milk for children, adults and the elderly.
+        <br/>
+        <br/>
+        Suffy products have Malaysian HALAL and HACCP certificates. Suffy is also a member of the Malaysian Muslim Consumer Association (PPIM). It is certain that the safety and quality of Suffy products are constantly monitored and in line with the needs of parents who want to find quality milk products.
+        </p>
+                
       </div>
 
       {/* Work Section with specific width and centering */}

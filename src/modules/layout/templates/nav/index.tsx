@@ -109,7 +109,7 @@ const Nav = () => {
 
 
               {process.env.FEATURE_SEARCH_ENABLED && <DesktopSearchModal />}
-              <Link href="/account" className="text-lg  hover:underline  decoration-sky-500/30">Account</Link>
+              <Link href="/account/treedashboard" className="text-lg  hover:underline  decoration-sky-500/30">Account</Link>
             </div>
             <CartDropdown />
           </div>

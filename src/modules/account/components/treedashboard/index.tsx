@@ -64,6 +64,7 @@ const TreeDashboard = ({ orders, customer }: OverviewProps) => {
 
   
   const animatedTotalCustomers = useCounter(totalCustomers, 20);
+  const [activeLeaderboard, setActiveLeaderboard] = useState('earners');
  
 
   console.log(customer?.totalOrders);
@@ -139,6 +140,14 @@ const TreeDashboard = ({ orders, customer }: OverviewProps) => {
   return (
     <div>
       <div className="small:block">
+      <div className="text-xl-semi flex justify-between items-start mb-4">
+          <span>Hello {customer?.first_name}</span>
+          <span className="text-small-regular text-gray-700">
+            Signed in as:{" "}
+            <span className="font-semibold">{customer?.email}</span>
+          </span>
+        </div>
+        <div className="flex flex-col py-8 border-t border-gray-200">
           <div className="flex flex-col gap-y-4 h-full col-span-1 row-span-2 flex-1">
           <div className="p-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -168,10 +177,35 @@ const TreeDashboard = ({ orders, customer }: OverviewProps) => {
             </div>
             </div>
 
+          {/* Navigation Menu for Leaderboards */}
+          <div className="flex border-b-2 mb-4">
+        <div
+          className={`cursor-pointer p-2 ${activeLeaderboard === 'earners' ? 'border-b-4 border-sky-400' : ''}`}
+          onClick={() => setActiveLeaderboard('earners')}
+        >
+          <span className="font-semibold text-gray-700">Earners</span>
+        </div>
+        <div
+          className={`cursor-pointer p-2 ${activeLeaderboard === 'recruiters' ? 'border-b-4 border-sky-400' : ''}`}
+          onClick={() => setActiveLeaderboard('recruiters')}
+        >
+          <span className="font-semibold text-gray-700">Recruiters</span>
+        </div>
+        <div
+          className={`cursor-pointer p-2 ${activeLeaderboard === 'profit' ? 'border-b-4 border-sky-400' : ''}`}
+          onClick={() => setActiveLeaderboard('profit')}
+        >
+          <span className="font-semibold text-gray-700">Profit Sharing</span>
+        </div>
+      </div>
+
 {/* Leaderboard Section */}
+{activeLeaderboard === 'earners' && (
+        // Render Top 10 Earners Table
+  
 <div className="mt-5 px-10">
   <h2 className="text-xl font-semibold text-gray-800 mb-4">Top 10 Earners</h2>
-  <div className="bg-white shadow rounded-lg overflow-hidden responsive-table" style={{ maxHeight: '300px', overflowY: 'auto' }}>
+  <div className="bg-white shadow rounded-lg overflow-hidden responsive-table" style={{ maxHeight: '700px', overflowY: 'auto' }}>
     <table className="min-w-full">
       <thead className="bg-sky-400">
         <tr>
@@ -183,6 +217,9 @@ const TreeDashboard = ({ orders, customer }: OverviewProps) => {
           </th>
           <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
             #Earnings
+          </th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+          State
           </th>
         </tr>
       </thead>
@@ -198,21 +235,27 @@ const TreeDashboard = ({ orders, customer }: OverviewProps) => {
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex justify-between items-center" data-label="Earnings">
             RM {earner.loyaltyPoints/100 || 0}
+            </td>
+            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" data-label="State">
+            TEST
             {index === 0 ? <FaCrown className="inline-block ml-2 text-[#fbbf24]" /> : 
             index === 1 ? <FaCrown className="inline-block ml-2 text-[silve]" /> : 
             index === 2 ? <FaCrown className="inline-block ml-2 text-[#78350f]" /> : null} 
-         
-            </td>
+           </td>
           </tr>
         ))}
       </tbody>
     </table>
   </div>
 </div>
+    )}
 
+{activeLeaderboard === 'recruiters' && (
+        // Render Top 10 Recruiters Table
+  
 <div className="mt-5 px-10">
   <h2 className="text-xl font-semibold text-gray-800 mb-4">Top 10 Recruiters</h2>
-  <div className="bg-white shadow rounded-lg overflow-hidden responsive-table" style={{ maxHeight: '300px', overflowY: 'auto' }}>
+  <div className="bg-white shadow rounded-lg overflow-hidden responsive-table" style={{ maxHeight: '700px', overflowY: 'auto' }}>
     <table className="min-w-full">
       <thead className="bg-sky-400">
       <tr>
@@ -224,6 +267,9 @@ const TreeDashboard = ({ orders, customer }: OverviewProps) => {
           </th>
           <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
           #Recruiters
+          </th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+          State
           </th>
         </tr>
       </thead>
@@ -239,7 +285,10 @@ const TreeDashboard = ({ orders, customer }: OverviewProps) => {
            </td>
            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex justify-between items-center" data-label="Recruits">
              {recruiter.recruits || 0}
-             {index === 0 ? <FaCrown className="inline-block ml-2 text-[#fbbf24]" /> : 
+           </td>
+           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" data-label="State">
+            TEST
+            {index === 0 ? <FaCrown className="inline-block ml-2 text-[#fbbf24]" /> : 
             index === 1 ? <FaCrown className="inline-block ml-2 text-[silve]" /> : 
             index === 2 ? <FaCrown className="inline-block ml-2 text-[#78350f]" /> : null} 
            </td>
@@ -249,10 +298,62 @@ const TreeDashboard = ({ orders, customer }: OverviewProps) => {
     </table>
   </div>
 </div>
+    )}
+
+{activeLeaderboard === 'profit' && (
+<div className="mt-5 px-10">
+  <h2 className="text-xl font-semibold text-gray-800 mb-4">Top 10 Profit Sharing</h2>
+  <div className="bg-white shadow rounded-lg overflow-hidden responsive-table" style={{ maxHeight: '700px', overflowY: 'auto' }}>
+    <table className="min-w-full">
+      <thead className="bg-sky-400">
+      <tr>
+          <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+                    Rank
+                  </th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+            User Name
+          </th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+          #Recruiters
+          </th>
+          <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
+          State
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {topRecruiters.map((recruiter, index) => (
+           <tr key={recruiter.id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+             <td className="px-6 py-4 whitespace-nowrap" data-label="Rank">
+                      {index + 1}
+                    </td>
+           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" data-label="User Name">
+             {`${recruiter.first_name} ${recruiter.last_name}`}
+             {customer?.first_name === recruiter.first_name && <span className="inline-block ml-2 font-semibold text-sky-700 flashing-text">(You're here!)</span>}
+           </td>
+           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex justify-between items-center" data-label="Recruits">
+             {recruiter.recruits || 0}
+          
+           </td>
+           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" data-label="State">
+            TEST
+            {index === 0 ? <FaCrown className="inline-block ml-2 text-[#fbbf24]" /> : 
+            index === 1 ? <FaCrown className="inline-block ml-2 text-[silve]" /> : 
+            index === 2 ? <FaCrown className="inline-block ml-2 text-[#78350f]" /> : null} 
+           </td>
+           
+         </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
+ )}
 
 
 
 
+          </div>
           </div>
       </div>
     </div>
