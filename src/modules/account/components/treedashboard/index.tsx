@@ -34,6 +34,7 @@ type Earner = {
   totalOrders: number;
   recruits: number;
   totalProfit: number;
+  totalBulkPurchase: number;
   // ... add any other relevant fields from your data
 };
 
@@ -59,6 +60,7 @@ const TreeDashboard = ({ orders, customer }: OverviewProps) => {
   const totalLoyaltyPoints = getTotalLoyaltyPoints(orders);
   const [topEarners, setTopEarners] = useState<Earner[]>([]);
   const [topRecruiters, setTopRecruiters] = useState<Earner[]>([]);
+  const [topBulkPurchase, setTopBulkPurchase] = useState<Earner[]>([]);
   const [totalCustomers, setTotalCustomers] = useState<number>(0);
   const [totalProfitShare, setTotalProfitShare] = useState<number>(0);
 
@@ -68,6 +70,7 @@ const TreeDashboard = ({ orders, customer }: OverviewProps) => {
  
 
   console.log(customer?.totalOrders);
+
   useEffect(() => {
     // Fetch the top earners from your API
     const fetchTopEarners = async () => {
@@ -102,6 +105,23 @@ const TreeDashboard = ({ orders, customer }: OverviewProps) => {
     };
 
     fetchTopRecruiters();
+
+         // Fetch the top recruiters from a separate endpoint
+    const fetchTopBulkPurchase = async () => {
+          try {
+            const response = await fetch('http://localhost:9000/store/top10-bulkpurchase');
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            let bulkPruchaseData = await response.json();
+            bulkPruchaseData = bulkPruchaseData.sort((a: { totalBulkPurchase: number }, b: { totalBulkPurchase: number }) => b.totalBulkPurchase- a.totalBulkPurchase);
+            setTopBulkPurchase(bulkPruchaseData);
+          } catch (error) {
+            console.error('There has been a problem with your fetch operation:', error);
+          }
+        };
+    
+    fetchTopBulkPurchase();
 
     const fetchTotalCustomers = async () => {
       try {
@@ -314,7 +334,7 @@ const TreeDashboard = ({ orders, customer }: OverviewProps) => {
             User Name
           </th>
           <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-          #Recruiters
+          Bulk Purchases
           </th>
           <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
           State
@@ -322,17 +342,17 @@ const TreeDashboard = ({ orders, customer }: OverviewProps) => {
         </tr>
       </thead>
       <tbody>
-        {topRecruiters.map((recruiter, index) => (
-           <tr key={recruiter.id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+        {topBulkPurchase.map((profit, index) => (
+           <tr key={profit.id} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
              <td className="px-6 py-4 whitespace-nowrap" data-label="Rank">
                       {index + 1}
                     </td>
            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" data-label="User Name">
-             {`${recruiter.first_name} ${recruiter.last_name}`}
-             {customer?.first_name === recruiter.first_name && <span className="inline-block ml-2 font-semibold text-sky-700 flashing-text">(You're here!)</span>}
+             {`${profit.first_name} ${profit.last_name}`}
+             {customer?.first_name === profit.first_name && <span className="inline-block ml-2 font-semibold text-sky-700 flashing-text">(You're here!)</span>}
            </td>
            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex justify-between items-center" data-label="Recruits">
-             {recruiter.recruits || 0}
+             {profit.totalBulkPurchase || 0}
           
            </td>
            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" data-label="State">
