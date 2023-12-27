@@ -5,6 +5,7 @@ import { useUpdateMe } from "medusa-react"
 import React, { useEffect } from "react"
 import { useForm, useWatch } from "react-hook-form"
 import AccountInfo from "../account-info"
+import { medusaClient } from "@lib/config"
 
 type MyInformationProps = {
   customer: Omit<Customer, "password_hash">
@@ -16,6 +17,7 @@ type UpdateCustomerICFormData = {
   IC: number;
 }
 
+
 const ProfileIC: React.FC<MyInformationProps> = ({ customer }) => {
   const {
     register,
@@ -25,9 +27,10 @@ const ProfileIC: React.FC<MyInformationProps> = ({ customer }) => {
     formState: { errors },
   } = useForm<UpdateCustomerICFormData>({
     defaultValues: {
-      IC: customer.IC,
+      IC: Number(customer.metadata?.IC),
     },
   })
+
 
   const { refetchCustomer } = useAccount()
 
@@ -41,7 +44,7 @@ const ProfileIC: React.FC<MyInformationProps> = ({ customer }) => {
 
   useEffect(() => {
     reset({
-      IC: customer.IC,
+      IC: Number(customer.metadata?.IC),
     })
   }, [customer, reset])
 
@@ -54,11 +57,14 @@ const ProfileIC: React.FC<MyInformationProps> = ({ customer }) => {
     return update(
       {
         id: customer.id,
-        ...data,
+        metadata: {
+          ...customer.metadata,
+          IC: data.IC, // Update the IC in metadata
+        },
       },
       {
         onSuccess: () => {
-          refetchCustomer()
+          refetchCustomer() // Refetch the customer to get the updated data
         },
       }
     )
@@ -68,7 +74,7 @@ const ProfileIC: React.FC<MyInformationProps> = ({ customer }) => {
     <form onSubmit={handleSubmit(updateIC)} className="w-full">
       <AccountInfo
         label="Identification card number (IC)"
-        currentInfo={`${customer.IC}`}
+        currentInfo={`${customer.metadata?.IC}`}
         isLoading={isLoading}
         isSuccess={isSuccess}
         isError={isError}
