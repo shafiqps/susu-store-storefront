@@ -2,41 +2,59 @@
 import React from 'react';
 import Link from 'next/link';
 import RewardCard from "../components/reward"
+import { useEffect, useState } from 'react';
+import { useCustomerOrders, useMeCustomer } from "medusa-react"
 
 const RewardTemplate: React.FC = () => {
-  const isAdmin = true;
+  const [rewards, setRewards] = useState([]); // Initialize state for rewards
+  const { customer } = useMeCustomer()
+  const [notification, setNotification] = useState({ message: '', type: '' });
 
-  if (!isAdmin) {
-    return <div>You do not have access to this page.</div>;
-  }
+  useEffect(() => {
+    // Function to fetch rewards from the API
+    const fetchRewards = async () => {
+      try {
+        const response = await fetch('http://localhost:9000/store/rewards'); // Adjust the URL to your API endpoint
+        const data = await response.json();
+        setRewards(data); // Update state with the fetched rewards
+      } catch (error) {
+        console.error('Error fetching rewards:', error);
+      }
+    };
 
-  const rewards = [
-    {
-      id: 1,
-      photo: 'BULK 15.3.jpg',
-      caption: 'Reward 1',
-      details: 'Details about Reward 1',
-      requiredPoints: 100,
-    },
-    {
-      id: 2,
-      photo: '9.3.jpg',
-      caption: 'Reward 2',
-      details: 'Details about Reward 2',
-      requiredPoints: 150,
-    },
-    {
-      id: 3,
-      photo: '12.4.jpg',
-      caption: 'Reward 3',
-      details: 'Details about Reward 3',
-      requiredPoints: 200,
-    },
+    fetchRewards(); // Call the function to fetch rewards
+  }, []); // Empty dependency array to run only on component mount
 
-  ];
+  const handleRedeem = async (rewardId, total) => {
+    if (customer.loyaltyPoints < total) {
+      setNotification({ message: 'You dont have enough to redeem this reward.', type: 'error' });
 
-  const handleRedeem = (rewardId: number) => {
-   // console.log("Redeem reward with ID:" ${rewardId});
+      return;
+    }
+    console.log(rewardId)
+    console.log(customer.id)
+    try {
+      const response = await fetch('http://localhost:9000/store/redeems', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          customer_id: customer?.id,
+          rewards_id: rewardId,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to redeem reward');
+      }
+      setNotification({ message: 'Reward successfully redeemed!', type: 'success' });
+
+      const result = await response.json();
+      console.log('Reward redeemed:', result);
+    } catch (error) {
+      console.error('Error redeeming reward:', error);
+    }
   };
 
   const handleHistory = () => {
@@ -46,6 +64,9 @@ const RewardTemplate: React.FC = () => {
 
   return (
     <div>
+      {notification.message && (
+        <div className={`notification ${notification.type}`}>{notification.message}</div>
+      )}
     <div className="small:block">
  
         <div className="mb-8 flex flex-col gap-y-4">
@@ -63,7 +84,7 @@ const RewardTemplate: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {rewards.map((reward) => (
-            <RewardCard key={reward.id} reward={reward} onRedeem={() => handleRedeem(reward.id)} />
+            <RewardCard key={reward.id} reward={reward} onRedeem={() => handleRedeem(reward.id, reward.price)} />
           ))}
         </div>
 
