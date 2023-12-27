@@ -78,6 +78,8 @@ const WithdrawalForm: React.FC<WithdrawalFormProps> = ({ onSubmit, customer }) =
         throw new Error('Failed to create withdrawal');
       }
 
+      
+
       const result = await response.json();
       console.log('Withdrawal created:', result);
 
