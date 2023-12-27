@@ -215,7 +215,7 @@ const TreeDashboard = ({ orders, customer }: OverviewProps) => {
           className={`cursor-pointer p-2 ${activeLeaderboard === 'profit' ? 'border-b-4 border-sky-400' : ''}`}
           onClick={() => setActiveLeaderboard('profit')}
         >
-          <span className="font-semibold text-gray-700">Profit Sharing</span>
+          <span className="font-semibold text-gray-700">Profit Sharings</span>
         </div>
       </div>
 
@@ -334,7 +334,7 @@ const TreeDashboard = ({ orders, customer }: OverviewProps) => {
             User Name
           </th>
           <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
-          Bulk Purchases
+          #Bulk Purchases
           </th>
           <th className="px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider">
           State

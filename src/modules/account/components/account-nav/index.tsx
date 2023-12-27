@@ -40,7 +40,7 @@ const AccountNav = () => {
           <div className="text-base-regular">
             <ul className="flex mb-0 mt-3 justify-start items-start flex-col gap-y-4">
               <li>
-                      <AccountNavLink href="/account/treedashboard" route={route!}>
+                      <AccountNavLink href="/account/dashboard" route={route!}>
                         Dashboard
                       </AccountNavLink>
               </li>
