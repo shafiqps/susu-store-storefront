@@ -7,6 +7,7 @@ import ProfilePassword from "@modules/account/components/profile-password"
 import ProfileBillingAddress from "../components/profile-billing-address"
 import ProfilePhone from "../components/profile-phone"
 import ProfileIC from "@modules/account/components/profile-ic"
+import ProfileAddress from "@modules/account/components/profile-address"
 
 const ProfileTemplate = () => {
   const { customer, retrievingCustomer, refetchCustomer } = useAccount()
@@ -27,14 +28,16 @@ const ProfileTemplate = () => {
       </div>
       <div className="flex flex-col gap-y-8 w-full">
         <ProfileName customer={customer} />
+        <Divider />       
+        <ProfileEmail customer={customer} />
         <Divider />
         <ProfileIC customer={customer} />
-        <Divider />
-        <ProfileEmail customer={customer} />
         <Divider />
         <ProfilePhone customer={customer} />
         <Divider />
         <ProfilePassword customer={customer} />
+        <Divider />
+        <ProfileAddress customer={customer} />
         <Divider />
         <ProfileBillingAddress customer={customer} />
       </div>

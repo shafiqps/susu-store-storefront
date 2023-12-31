@@ -35,7 +35,29 @@ type Earner = {
   recruits: number;
   totalProfit: number;
   totalBulkPurchase: number;
+  billing_address: BillingAddress | null;
+
   // ... add any other relevant fields from your data
+};
+
+
+type BillingAddress = {
+  id: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string | null;
+  customer_id: string | null;
+  company: string;
+  first_name: string;
+  last_name: string;
+  address_1: string;
+  address_2: string;
+  city: string;
+  country_code: string;
+  province: string;
+  postal_code: string;
+  phone: string | null;
+  metadata: any | null;
 };
 
 const useCounter = (target: number, speed: number) => {
@@ -257,7 +279,7 @@ const TreeDashboard = ({ orders, customer }: OverviewProps) => {
             RM {earner.loyaltyPoints/100 || 0}
             </td>
             <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" data-label="State">
-            TEST
+            {earner.billing_address ? earner.billing_address.province : 'Unknown'}
             {index === 0 ? <FaCrown className="inline-block ml-2 text-[#fbbf24]" /> : 
             index === 1 ? <FaCrown className="inline-block ml-2 text-[silve]" /> : 
             index === 2 ? <FaCrown className="inline-block ml-2 text-[#78350f]" /> : null} 
@@ -307,7 +329,7 @@ const TreeDashboard = ({ orders, customer }: OverviewProps) => {
              {recruiter.recruits || 0}
            </td>
            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900" data-label="State">
-            TEST
+            {recruiter.billing_address ? recruiter.billing_address.province : 'Unknown'}
             {index === 0 ? <FaCrown className="inline-block ml-2 text-[#fbbf24]" /> : 
             index === 1 ? <FaCrown className="inline-block ml-2 text-[silve]" /> : 
             index === 2 ? <FaCrown className="inline-block ml-2 text-[#78350f]" /> : null} 

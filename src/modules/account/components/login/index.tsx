@@ -33,7 +33,7 @@ const Login = () => {
       .authenticate(credentials)
       .then(() => {
         refetchCustomer()
-        router.push("/account/treedashboard")
+        router.push("/account/dashboard")
       })
       .catch(handleError)
   })

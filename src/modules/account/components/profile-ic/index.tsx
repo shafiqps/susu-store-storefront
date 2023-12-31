@@ -14,7 +14,7 @@ type MyInformationProps = {
 }
 
 type UpdateCustomerICFormData = {
-  IC: number;
+  IC?: string;
 }
 
 
@@ -27,7 +27,8 @@ const ProfileIC: React.FC<MyInformationProps> = ({ customer }) => {
     formState: { errors },
   } = useForm<UpdateCustomerICFormData>({
     defaultValues: {
-      IC: Number(customer.metadata?.IC),
+      IC: String(customer.metadata?.IC),
+      
     },
   })
 
@@ -44,7 +45,7 @@ const ProfileIC: React.FC<MyInformationProps> = ({ customer }) => {
 
   useEffect(() => {
     reset({
-      IC: Number(customer.metadata?.IC),
+      IC: String(customer.metadata?.IC),
     })
   }, [customer, reset])
 
@@ -73,12 +74,20 @@ const ProfileIC: React.FC<MyInformationProps> = ({ customer }) => {
   return (
     <form onSubmit={handleSubmit(updateIC)} className="w-full">
       <AccountInfo
-        label="Identification card number (IC)"
-        currentInfo={`${customer.metadata?.IC}`}
+        
+        label="Identification card"
+        currentInfo={ 
+          <>
+          <div style={{ textAlign: 'left' }}> 
+           <div className="font-semibold">{customer.metadata?.IC}</div>
+          </div>
+          </>
+        }
         isLoading={isLoading}
         isSuccess={isSuccess}
         isError={isError}
         clearState={clearState}
+       
       >
         <div className="grid grid-cols-1 gap-y-2">
           <Input

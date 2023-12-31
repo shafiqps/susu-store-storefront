@@ -35,4 +35,4 @@ const RewardCard: React.FC<RewardCardProps> = ({ reward, onRedeem }) => {
   );
 };
 
-export default RewardCard;
+export default RewardCard
