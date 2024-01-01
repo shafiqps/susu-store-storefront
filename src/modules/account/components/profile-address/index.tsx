@@ -12,8 +12,8 @@ type MyInformationProps = {
 }
 
 type UpdateCustomerAddressFormData = {
-    billing_address: StorePostCustomersCustomerReq['billing_address'];
     home_address?: Address; 
+    office_address?: Address;
   };
 
   type Address = {
@@ -31,17 +31,6 @@ type UpdateCustomerAddressFormData = {
 
 const ProfileAddress: React.FC<MyInformationProps> = ({ customer }) => {
 
-  const createEmptyAddress = (): Address => ({
-    first_name: '',
-    last_name: '',
-    company: '',
-    address_1: '',
-    address_2: '',
-    city: '',
-    province: '',
-    postal_code: '',
-    country_code: '',
-  });
   
   const {
     register,
@@ -51,8 +40,8 @@ const ProfileAddress: React.FC<MyInformationProps> = ({ customer }) => {
     formState: { errors },
   } = useForm<UpdateCustomerAddressFormData>({
     defaultValues: {
-      ...mapBillingAddressToFormData({ customer }),
-      home_address: customer.metadata?.home_address || createEmptyAddress(), // createEmptyAddress is a function you'll define
+      home_address: customer.metadata?.home_address || createEmptyAddress(),
+      office_address: customer.metadata?.office_address || createEmptyAddress(), // createEmptyAddress is a function you'll define
     },
   })
 
@@ -79,51 +68,27 @@ const ProfileAddress: React.FC<MyInformationProps> = ({ customer }) => {
     )
   }, [regions])
 
+
   useEffect(() => {
     reset({
-      ...mapBillingAddressToFormData({ customer }),
+      home_address: customer.metadata?.home_address || createEmptyAddress(),
+      office_address: customer.metadata?.office_address || createEmptyAddress(),
     })
   }, [customer, reset])
 
   const { refetchCustomer } = useAccount()
 
-  const [
-    firstName,
-    lastName,
-    company,
-    address1,
-    address2,
-    city,
-    province,
-    postalCode,
-    countryCode,
-  ] = useWatch({
-    control,
-    name: [
-      "billing_address.first_name",
-      "billing_address.last_name",
-      "billing_address.company",
-      "billing_address.address_1",
-      "billing_address.address_2",
-      "billing_address.city",
-      "billing_address.province",
-      "billing_address.postal_code",
-      "billing_address.country_code",
-    ],
-  })
+
 
   const updateAddresses = (data: UpdateCustomerAddressFormData) => {
-
-
-    
     // Update the customer with both billing and home addresses
     return update(
       {
-        id: customer.id,
-        billing_address: data.billing_address, // This will be part of the main customer data
+        id: customer.id,// This will be part of the main customer data
         metadata: {
           ...customer.metadata,
-          home_address: data.home_address, // This will be part of the metadata
+          home_address: data.home_address,
+          office_address: data.office_address // This will be part of the metadata
         },
       },
       {
@@ -134,164 +99,115 @@ const ProfileAddress: React.FC<MyInformationProps> = ({ customer }) => {
     );
   };
 
-  const currentInfo = useMemo(() => {
-    if (!customer.billing_address) {
-      return "No billing address"
-    }
-    const country =
-      regionOptions?.find(
-        (country) => country.value === customer.billing_address.country_code
-      )?.label || customer.billing_address.country_code?.toUpperCase()
-
-    return (
-      <div className="flex flex-col font-semibold">
-        <span>
-          {customer.billing_address.first_name}{" "}
-          {customer.billing_address.last_name}
-        </span>
-        <span>{customer.billing_address.company}</span>
-        <span>
-          {customer.billing_address.address_1}
-          {customer.billing_address.address_2
-            ? `, ${customer.billing_address.address_2}`
-            : ""}
-        </span>
-        <span>
-          {customer.billing_address.postal_code},{" "}
-          {customer.billing_address.city}
-        </span>
-        <span>{country}</span>
-      </div>
-    )
-  }, [customer, regionOptions])
 
   const homeAddressInfo = useMemo(() => {
     const homeAddress = customer.metadata?.home_address;
     if (!homeAddress) {
       return "No home address"; // Display this when no home address is set
     }
-  
-    // If there is a home address, format it for display
-    const lines = [
-      `${homeAddress.first_name} ${homeAddress.last_name}`,
-      homeAddress.company,
-      homeAddress.address_1,
-      homeAddress.address_2,
-      `${homeAddress.postal_code}, ${homeAddress.city}`,
-      homeAddress.province,
-      homeAddress.country_code, // You might want to resolve the country code to a country name
-    ].filter(Boolean).join(", ");
+
+    const homecountry =
+    regionOptions?.find(
+      (country) => country.value === homeAddress.country_code
+    )?.label || homeAddress.country_code?.toUpperCase()
+
   
     return (
       <div className="flex flex-col font-semibold">
-        {lines.split(", ").map((line, index) => (
-          <span key={index}>{line}</span>
-        ))}
+        <span>
+          {homeAddress.first_name}{" "}
+          {homeAddress.last_name}
+        </span>
+        <span>{homeAddress.company}</span>
+        <span>
+          {homeAddress.address_1}
+          {homeAddress.address_2
+            ? `, ${homeAddress.address_2}`
+            : ""}
+        </span>
+        <span>
+          {homeAddress.postal_code},{" "}
+          {homeAddress.city}
+        </span>
+        <span>
+          {homeAddress.province}
+          </span>
+        <span>{homecountry}</span>
+
       </div>
     );
-  }, [customer.metadata?.home_address]);
+  }, [customer.metadata?.home_address, regionOptions]);
+
+
+  const officeAddressInfo = useMemo(() => {
+    const officeAddress = customer.metadata?.office_address;
+    if (!officeAddress) {
+      return "No Office Address"; // Display this when no home address is set
+    }
+
+    const officeCountry =
+    regionOptions?.find(
+      (country) => country.value === officeAddress.country_code
+    )?.label || officeAddress.country_code?.toUpperCase()
+
+  
+    return (
+      <div className="flex flex-col font-semibold">
+        <span>
+          {officeAddress.first_name}{" "}
+          {officeAddress.last_name}
+        </span>
+        <span>{officeAddress.company}</span>
+        <span>
+          {officeAddress.address_1}
+          {officeAddress.address_2
+            ? `, ${officeAddress.address_2}`
+            : ""}
+        </span>
+        <span>
+          {officeAddress.postal_code},{" "}
+          {officeAddress.city}
+        </span>
+        <span>
+          {officeAddress.province}
+          </span>
+        <span>{officeCountry}</span>
+
+      </div>
+    );
+  }, [customer.metadata?.office_address, regionOptions]);
   
   
   return (
     <form
       onSubmit={handleSubmit(updateAddresses )}
-      onReset={() => reset(mapBillingAddressToFormData({ customer }))}
       className="w-full"
     >
+       <span className="address-section-title">Other Addresses</span>
       <AccountInfo
-        label="Addresses"
-        currentInfo={currentInfo}
+        label="Other Addresses"
+        currentInfo={   
+          <>
+          <div style={{ textAlign: 'left'  }}> 
+          
+            <div className="mb-5">Home Address: {homeAddressInfo}</div>
+            <div className="mb-5 px-0 ">Office Address: {officeAddressInfo}</div>
+          </div>
+          </>
+        }
         isLoading={isLoading}
         isSuccess={isSuccess}
         isError={isError}
         clearState={clearState}
-      >
+        
+      >     
+     
         <div className="grid grid-cols-1 gap-y-2">
-        <h1>Billing Address</h1>
+        <h1>Home Address</h1>
           <div className="grid grid-cols-2 gap-x-2">
             <Input
               label="First name"
-              {...register("billing_address.first_name", {
-                required: true,
-              })}
-              defaultValue={firstName}
-              errors={errors}
-            />
-            <Input
-              label="Last name"
-              {...register("billing_address.last_name", { required: true })}
-              defaultValue={lastName}
-              errors={errors}
-            />
-          </div>
-          <Input
-            label="Company"
-            {...register("billing_address.company")}
-            defaultValue={company}
-            errors={errors}
-          />
-          <Input
-            label="Address"
-            {...register("billing_address.address_1", { required: true })}
-            defaultValue={address1}
-            errors={errors}
-          />
-          <Input
-            label="Apartment, suite, etc."
-            {...register("billing_address.address_2")}
-            defaultValue={address2}
-            errors={errors}
-          />
-          <div className="grid grid-cols-[144px_1fr] gap-x-2">
-            <Input
-              label="Postal code"
-              {...register("billing_address.postal_code", { required: true })}
-              defaultValue={postalCode}
-              errors={errors}
-            />
-            <Input
-              label="City"
-              {...register("billing_address.city", { required: true })}
-              defaultValue={city}
-              errors={errors}
-            />
-          </div>
-          <Input
-            label="Province"
-            {...register("billing_address.province")}
-            defaultValue={province}
-            errors={errors}
-          />
-          <NativeSelect
-            {...register("billing_address.country_code", { required: true })}
-            defaultValue={countryCode}
-          >
-            <option value="">-</option>
-            {regionOptions.map((option, i) => {
-              return (
-                <option key={i} value={option.value}>
-                  {option.label}
-                </option>
-              )
-            })}
-          </NativeSelect>
-        </div>      
-      </AccountInfo>
-
-      <AccountInfo
-        label="Home Address"
-        currentInfo={homeAddressInfo}
-        isLoading={isLoading}
-        isSuccess={isSuccess}
-        isError={isError}
-        clearState={clearState}
-      >
-        <div className="grid grid-cols-1 gap-y-2">
-        <h1>Billing Address</h1>
-          <div className="grid grid-cols-2 gap-x-2">
-            <Input
-              label="First name"
-              {...register("billing_address.first_name", {
+              {...register("home_address.first_name", {
                 required: true,
               })}
               defaultValue={customer.metadata?.home_address?.firstName}
@@ -299,51 +215,51 @@ const ProfileAddress: React.FC<MyInformationProps> = ({ customer }) => {
             />
             <Input
               label="Last name"
-              {...register("billing_address.last_name", { required: true })}
+              {...register("home_address.last_name", { required: true })}
               defaultValue={customer.metadata?.home_address?.lastName}
               errors={errors}
             />
           </div>
           <Input
             label="Company"
-            {...register("billing_address.company")}
+            {...register("home_address.company")}
             defaultValue={customer.metadata?.home_address?.company}
             errors={errors}
           />
           <Input
             label="Address"
-            {...register("billing_address.address_1", { required: true })}
+            {...register("home_address.address_1", { required: true })}
             defaultValue={customer.metadata?.home_address?.address1}
             errors={errors}
           />
           <Input
             label="Apartment, suite, etc."
-            {...register("billing_address.address_2")}
+            {...register("home_address.address_2")}
             defaultValue={customer.metadata?.home_address?.address2}
             errors={errors}
           />
           <div className="grid grid-cols-[144px_1fr] gap-x-2">
             <Input
               label="Postal code"
-              {...register("billing_address.postal_code", { required: true })}
+              {...register("home_address.postal_code", { required: true })}
               defaultValue={customer.metadata?.home_address?.postalCode}
               errors={errors}
             />
             <Input
               label="City"
-              {...register("billing_address.city", { required: true })}
+              {...register("home_address.city", { required: true })}
               defaultValue={customer.metadata?.home_address?.city}
               errors={errors}
             />
           </div>
           <Input
             label="Province"
-            {...register("billing_address.province")}
+            {...register("home_address.province")}
             defaultValue={customer.metadata?.home_address?.province}
             errors={errors}
           />
           <NativeSelect
-            {...register("billing_address.country_code", { required: true })}
+            {...register("home_address.country_code", { required: true })}
             defaultValue={customer.metadata?.home_address?.countryCode}
           >
             <option value="">-</option>
@@ -355,7 +271,78 @@ const ProfileAddress: React.FC<MyInformationProps> = ({ customer }) => {
               )
             })}
           </NativeSelect>
-        </div>      
+        </div>    
+
+        <div className="grid grid-cols-1 gap-y-2">
+        <h1>Office Address</h1>
+          <div className="grid grid-cols-2 gap-x-2">
+            <Input
+              label="First name"
+              {...register("office_address.first_name", {
+                required: true,
+              })}
+              defaultValue={customer.metadata?.office_address?.firstName}
+              errors={errors}
+            />
+            <Input
+              label="Last name"
+              {...register("office_address.last_name", { required: true })}
+              defaultValue={customer.metadata?.office_address?.lastName}
+              errors={errors}
+            />
+          </div>
+          <Input
+            label="Company"
+            {...register("office_address.company")}
+            defaultValue={customer.metadata?.office_address?.company}
+            errors={errors}
+          />
+          <Input
+            label="Address"
+            {...register("office_address.address_1", { required: true })}
+            defaultValue={customer.metadata?.office_address?.address1}
+            errors={errors}
+          />
+          <Input
+            label="Apartment, suite, etc."
+            {...register("office_address.address_2")}
+            defaultValue={customer.metadata?.office_address?.address2}
+            errors={errors}
+          />
+          <div className="grid grid-cols-[144px_1fr] gap-x-2">
+            <Input
+              label="Postal code"
+              {...register("office_address.postal_code", { required: true })}
+              defaultValue={customer.metadata?.office_address?.postalCode}
+              errors={errors}
+            />
+            <Input
+              label="City"
+              {...register("office_address.city", { required: true })}
+              defaultValue={customer.metadata?.office_address?.city}
+              errors={errors}
+            />
+          </div>
+          <Input
+            label="Province"
+            {...register("office_address.province")}
+            defaultValue={customer.metadata?.office_address?.province}
+            errors={errors}
+          />
+          <NativeSelect
+            {...register("office_address.country_code", { required: true })}
+            defaultValue={customer.metadata?.office_address?.countryCode}
+          >
+            <option value="">-</option>
+            {regionOptions.map((option, i) => {
+              return (
+                <option key={i} value={option.value}>
+                  {option.label}
+                </option>
+              )
+            })}
+          </NativeSelect>
+        </div>   
       </AccountInfo>      
 
 
@@ -381,6 +368,19 @@ const mapBillingAddressToFormData = ({ customer }: MyInformationProps) => {
     },
   }
 }
+
+
+const createEmptyAddress = (): Address => ({
+  first_name: '',
+  last_name: '',
+  company: '',
+  address_1: '',
+  address_2: '',
+  city: '',
+  province: '',
+  postal_code: '',
+  country_code: '',
+});
 
 
 

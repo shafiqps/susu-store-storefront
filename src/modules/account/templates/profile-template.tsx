@@ -37,9 +37,9 @@ const ProfileTemplate = () => {
         <Divider />
         <ProfilePassword customer={customer} />
         <Divider />
-        <ProfileAddress customer={customer} />
-        <Divider />
         <ProfileBillingAddress customer={customer} />
+        <Divider />
+        <ProfileAddress customer={customer} />
       </div>
     </div>
   )

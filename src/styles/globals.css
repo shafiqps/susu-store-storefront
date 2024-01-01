@@ -6,7 +6,9 @@
 
 
 @layer utilities {
-
+  .custom-max-height {
+    max-height: none !important;
+  }
   .main-container {
     padding: 2em;
 }
@@ -498,6 +500,26 @@ hr {
     .nested-list li {
       /* Styles for nested list items */
     }
+
+
+    .addresses-section {
+      width: 100%;
+    }
+    
+    .section-title {
+      text-align: left;
+      margin-bottom: 20px; /* Adjust as needed */
+    }
+    
+    .address {
+      margin-bottom: 30px; /* Adjust as needed */
+    }
+    
+    .address-title {
+      text-align: left;
+      margin-bottom: 10px; /* Adjust as needed */
+    }
+    
 
     /* Add this CSS in your global stylesheet or inside a <style jsx> tag if you're using styled-jsx */
 @media (max-width: 640px) {

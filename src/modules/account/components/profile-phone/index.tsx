@@ -80,7 +80,7 @@ const ProfilePhone: React.FC<MyInformationProps> = ({ customer }) => {
       label="Phones"
       currentInfo={   
         <>
-        <div style={{ textAlign: 'left' }}> 
+        <div style={{ textAlign: 'left'  }}> 
           <div className="font-semibold">Primary: {customer.phone}</div>
           <div className="font-semibold">Other: {customer.metadata?.otherPhone}</div>
         </div>
